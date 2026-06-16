@@ -94,7 +94,10 @@ export const PROMPTS = {
     absenceDate: '  Date (YYYY-MM-DD) : ',
     absenceStatus: '  Statut (justifiée / non justifiée) : ',
     absenceId: '  ID de l\'absence : ',
-    newAbsenceStatus: '  Nouveau statut (justifiée / non justifiée) : '
+    newAbsenceStatus: '  Nouveau statut (justifiée / non justifiée) : ',
+    subjectName: '  Nom de la matière : ',
+    teacherIdOptional: '  ID du professeur (optionnel) : ',
+    gradeValue: '  Note (0-20) : '
 };
 
 export const MESSAGES = {
