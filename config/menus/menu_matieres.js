@@ -1,16 +1,11 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// ÉTAPE 9d : MENU MATIÈRES - Gestion des matières et affectation
-// ═══════════════════════════════════════════════════════════════════════════════
+// 
+// MENU MATIÈRES - Gestion des matières et affectation
+// 
 
 import * as matiereService from '../../services/matiereServive.js';
 import * as professeurService from '../../services/teacherService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import {
-    ask,
-    showMenu,
-    printRows,
-    parseId
-} from '../../utils/fct_utl_aff.js';
+import { ask,showMenu,printRows,parseId } from '../../config/fct_utl_aff.js';
 
 async function menuMatieres() {
     showMenu(MENU_TITLES.subjects, MENUS.subjects);

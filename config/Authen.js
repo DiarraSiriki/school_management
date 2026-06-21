@@ -1,3 +1,18 @@
+import logger from '../utils/logger.js';
+import { ask, header } from './fct_utl_aff.js';
+import { PROMPTS, MESSAGES } from './constents.js';
+import * as userService from '../services/userService.js';
+
+let currentUser = null;
+
+export function setCurrentUser(user) {
+    currentUser = user;
+}
+
+export function getCurrentUser() {
+    return currentUser;
+}
+
 export const ROLES = {
     ADMIN: 'admin',
     TEACHER: 'professeur',
@@ -33,6 +48,32 @@ export const MENU_BY_ROLE = {
         '  0. Quitter'
     ]
 };
+
+
+//
+// AUTHENTIFICATION - Connexion de l'utilisateur
+// 
+
+export async function login() {
+    while (!currentUser) {
+        header('CONNEXION');
+        const email = await ask(PROMPTS.loginEmail);
+        const mot_de_passe = await ask(PROMPTS.loginPassword);
+        const utilisateur = userService.authenticate(email.trim(), mot_de_passe.trim());
+        if (utilisateur) {
+            const user = {
+                ...utilisateur,
+                role: normalizeRole(utilisateur.role)
+            };
+            setCurrentUser(user);
+            logger.info(`Connexion réussie: ${user.name} (${user.role})`);
+            console.log(`\n  Bienvenue ${user.name} (${user.role})\n`);
+            return;
+        }
+        console.log(MESSAGES.invalidCredentials);
+    }
+}
+
 
 export function normalizeRole(role) {
     if (!role || typeof role !== 'string') return '';

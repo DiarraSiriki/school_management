@@ -1,16 +1,11 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// ÉTAPE 9g : MENU STATISTIQUES - Consultation des données statistiques
-// ═══════════════════════════════════════════════════════════════════════════════
+// 
+// MENU STATISTIQUES - Consultation des données statistiques
+// 
 
 import * as etudiantService from '../../services/studentService.js';
 import * as statsService from '../../services/statisService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import {
-    ask,
-    showMenu,
-    printRows,
-    resolveStudentId
-} from '../../utils/fct_utl_aff.js';
+import {ask,showMenu,printRows,resolveStudentId} from '../../config/fct_utl_aff.js';
 
 async function menuStats() {
     showMenu(MENU_TITLES.stats, MENUS.stats);

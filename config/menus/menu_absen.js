@@ -1,17 +1,11 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// ÉTAPE 9f : MENU ABSENCES - Enregistrement et consultation des absences
-// ═══════════════════════════════════════════════════════════════════════════════
+// 
+// MENU ABSENCES - Enregistrement et consultation des absences
+// 
 
 import * as etudiantService from '../../services/studentService.js';
 import * as absenceService from '../../services/absenceService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import {
-    ask,
-    showMenu,
-    printRows,
-    resolveStudentId,
-    parseId
-} from '../../utils/fct_utl_aff.js';
+import {ask,showMenu,printRows,resolveStudentId,parseId} from '../../config/fct_utl_aff.js';
 
 async function menuAbsences() {
     showMenu(MENU_TITLES.absences, MENUS.absences);

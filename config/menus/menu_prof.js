@@ -1,15 +1,10 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// ÉTAPE 9c : MENU PROFESSEURS - Gestion des professeurs
-// ═══════════════════════════════════════════════════════════════════════════════
+// 
+// MENU PROFESSEURS - Gestion des professeurs
+// 
 
 import * as professeurService from '../../services/teacherService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import {
-    ask,
-    showMenu,
-    printRows,
-    parseId
-} from '../../utils/fct_utl_aff.js';
+import { ask,showMenu,printRows,parseId } from '../../config/fct_utl_aff.js';
 
 async function menuProfesseurs() {
     showMenu(MENU_TITLES.teachers, MENUS.teachers);
@@ -40,7 +35,7 @@ async function menuProfesseurs() {
         case '3': {
             const teachers = professeurService.listTeachers();
             printRows('professeur', teachers);
-            const id = parseId(await ask(PROMPTS.userDeleteId));
+            const id = parseId(await ask(PROMPTS.teacherId));
             const ok = id ? professeurService.removeTeacher(id) : false;
             console.log(ok ? '  Professeur supprimé.' : '  Suppression échouée.');
             break;

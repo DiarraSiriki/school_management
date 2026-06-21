@@ -1,19 +1,12 @@
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// ÉTAPE 9e : MENU NOTES - Gestion des notes des étudiants
-// ═══════════════════════════════════════════════════════════════════════════════
+// 
+// MENU NOTES - Gestion des notes des étudiants
+// 
 
 import * as etudiantService from '../../services/studentService.js';
 import * as matiereService from '../../services/matiereServive.js';
 import * as noteService from '../../services/gradeService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import {
-    ask,
-    showMenu,
-    printRows,
-    resolveStudentId,
-    parseId
-} from '../../utils/fct_utl_aff.js';
+import {ask,showMenu,printRows,resolveStudentId,parseId} from '../../config/fct_utl_aff.js';
 
 async function menuNotes() {
     showMenu(MENU_TITLES.grades, MENUS.grades);

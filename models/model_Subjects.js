@@ -10,21 +10,25 @@ class Subjects {
   }
 
   static getAll() {
+
     const query = database.prepare('SELECT * FROM subjects');
     return query.all();
   }
 
   static getById(id) {
+
     const query = database.prepare('SELECT * FROM subjects WHERE id = ?');
     return query.get(id);
   }
 
   static getByTeacher(teacher_id) {
+
     const query = database.prepare('SELECT * FROM subjects WHERE teacher_id = ?');
     return query.all(teacher_id);
   }
 
   static search(keyword) {
+
     const query = database.prepare(`
       SELECT * FROM subjects
       WHERE nom LIKE ?
@@ -34,6 +38,7 @@ class Subjects {
   }
 
   static update(id, nom, teacher_id) {
+
     const query = database.prepare(`
       UPDATE subjects SET nom = ?, teacher_id = ?
       WHERE id = ?
@@ -42,6 +47,7 @@ class Subjects {
   }
 
   static delete(id) {
+    
     const query = database.prepare('DELETE FROM subjects WHERE id = ?');
     return query.run(id);
   }

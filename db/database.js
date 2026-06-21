@@ -19,9 +19,6 @@ db.exec(tableUsers);
 
 
 
-
-
-
 // TABLE STUDENTS 
 
 const tableStudents = `

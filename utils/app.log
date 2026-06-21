@@ -1,0 +1,18 @@
+[2026-06-20 00:35:11] [INFO] Application démarrée
+[2026-06-20 00:38:45] [INFO] Connexion réussie: Diarra (admin)
+[2026-06-20 00:40:14] [INFO] Application fermée
+[2026-06-20 00:40:47] [INFO] Application démarrée
+[2026-06-20 00:41:13] [INFO] Connexion réussie: Diarra (admin)
+[2026-06-20 00:41:37] [INFO] Meilleur étudiant: Franck Sess (Moyenne: 16.50)
+[2026-06-20 00:41:59] [INFO] Meilleur étudiant: Franck Sess (Moyenne: 16.50)
+[2026-06-20 00:42:20] [INFO] Application fermée
+[2026-06-20 00:45:29] [INFO] Application démarrée
+[2026-06-20 11:17:15] [INFO] Application démarrée
+[2026-06-20 11:17:38] [INFO] Connexion réussie: Diarra (admin)
+[2026-06-20 11:19:15] [INFO] Utilisateur ajouté: ID=7, Nom=Diarra, Rôle=professeur
+[2026-06-21 11:46:00] [INFO] Application démarrée
+[2026-06-21 11:46:50] [INFO] Connexion réussie: Diarra (admin)
+[2026-06-21 14:23:00] [INFO] Matière ajoutée: ID=5, Nom=philo, Professeur ID=9
+[2026-06-21 22:53:27] [INFO] Liste des étudiants consultée (8 étudiants)
+[2026-06-21 22:53:40] [INFO] Étudiant trouvé par matricule: B002
+[2026-06-21 22:54:33] [INFO] Absence enregistrée: ID=5, Étudiant ID=3, Date=22-06-2026, Statut=justifiée

@@ -71,7 +71,7 @@ export const MENUS = {
 };
 
 export const PROMPTS = {
-    choice: '  Votre choix : ',
+    choice: '  Veillez faire votre choix : ',
     loginEmail: '  Email de connexion : ',
     loginPassword: '  Mot de passe de connexion : ',
     name: '  Nom : ',
@@ -85,18 +85,18 @@ export const PROMPTS = {
     classe: '  Classe : ',
     studentIdOrMatricule: '  ID ou matricule de l\'étudiant : ',
     studentIdOrMatriculeToDelete: '  ID ou matricule à supprimer : ',
-    searchTerm: '  Terme de recherche : ',
+    searchTerm: '  le matricule ou le nom de l\'étudiant : ',
     teacherSubject: '  Matière : ',
     teacherId: '  ID du professeur : ',
     subjectId: '  ID de la matière : ',
     gradeId: '  ID de la note à modifier : ',
     newGrade: '  Nouvelle note (0-20) : ',
-    absenceDate: '  Date (YYYY-MM-DD) : ',
+    absenceDate: '  Date (DD-MM-YYYY) : ',
     absenceStatus: '  Statut (justifiée / non justifiée) : ',
     absenceId: '  ID de l\'absence : ',
     newAbsenceStatus: '  Nouveau statut (justifiée / non justifiée) : ',
     subjectName: '  Nom de la matière : ',
-    teacherIdOptional: '  ID du professeur (optionnel) : ',
+    teacherIdOptional: '  ID du professeur  : ',
     gradeValue: '  Note (0-20) : '
 };
 

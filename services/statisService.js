@@ -1,10 +1,18 @@
 ﻿import Grade from '../models/modelGrade.js';
 import Absence from '../models/modelAbsences.js';
 import Student from '../models/modelStudent.js';
-import logger from '../logs/loger.js';
+import logger from '../utils/logger.js';
+export {
+  getGeneralAverage,
+  getBestStudent,
+  getRankings,
+  countAbsencesByStudent,
+  countAllAbsences
+};
 
 // Fonction privée : calcule la moyenne d'un étudiant
 function calcAverage(student_id) {
+
   const grades = Grade.getByStudent(student_id);
   if (grades.length === 0) return 0;
   const sum = grades.reduce((acc, g) => acc + g.note, 0);
@@ -12,8 +20,9 @@ function calcAverage(student_id) {
 }
 
 // Moyenne générale de toute l'école
-export function getGeneralAverage() {
-  const grades = Grade.getAll();
+function getGeneralAverage() {
+
+   const grades = Grade.getAll();
   if (grades.length === 0) {
     logger.info('Moyennes générales consultées (aucune note)');
     return 0;
@@ -25,7 +34,9 @@ export function getGeneralAverage() {
 }
 
 // Meilleur étudiant (moyenne la plus haute)
-export function getBestStudent() {
+
+function getBestStudent() {
+
   const students = Student.getAll();
   if (students.length === 0) {
     logger.info('Meilleur étudiant consulté (aucun étudiant)');
@@ -50,9 +61,9 @@ export function getBestStudent() {
 }
 
 // Classement de tous les étudiants du meilleur au moins bon
-export function getRankings() {
-  const students = Student.getAll();
-  const rankings = students
+function getRankings() {
+    const students = Student.getAll();
+     const rankings = students
     .map((student) => ({
       ...student,
       moyenne: calcAverage(student.id).toFixed(2)
@@ -64,9 +75,9 @@ export function getRankings() {
 }
 
 // Absences d'un étudiant précis
-export function countAbsencesByStudent(student_id) {
-  const absences = Absence.getByStudent(student_id);
-  const result = {
+function countAbsencesByStudent(student_id) {
+     const absences = Absence.getByStudent(student_id);
+     const result = {
     total: absences.length,
     justifiees: absences.filter(a => a.status === 'justifiée').length,
     non_justifiees: absences.filter(a => a.status === 'non justifiée').length
@@ -76,9 +87,9 @@ export function countAbsencesByStudent(student_id) {
 }
 
 // Toutes les absences de l'école
-export function countAllAbsences() {
-  const absences = Absence.getAll();
-  const result = {
+function countAllAbsences() {
+     const absences = Absence.getAll();
+      const result = {
     total: absences.length,
     justifiees: absences.filter(a => a.status === 'justifiée').length,
     non_justifiees: absences.filter(a => a.status === 'non justifiée').length

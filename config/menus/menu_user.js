@@ -1,17 +1,10 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// ÉTAPE 9a : MENU UTILISATEURS - Gestion des comptes utilisateur (Admin uniquement)
-// ═══════════════════════════════════════════════════════════════════════════════
+// 
+// MENU UTILISATEURS - Gestion des comptes utilisateur (Admin uniquement)
+// 
 
 import * as userService from '../../services/userService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import {
-    ask,
-    header,
-    printMenu,
-    separator,
-    printRows,
-    parseId
-} from '../../utils/fct_utl_aff.js';
+import { ask,header,printMenu,separator,printRows,parseId } from '../../config/fct_utl_aff.js';
 
 async function menuUtilisateurs() {
     header(MENU_TITLES.users);
