@@ -1,20 +1,34 @@
-// 
-// MENU PROFESSEURS - Gestion des professeurs
-// 
-
 import * as professeurService from '../../services/teacherService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import { ask,showMenu,printRows,parseId } from '../../config/fct_utl_aff.js';
+import { ask, showMenu, printRows, parseId } from '../../config/fct_utl_aff.js';
+import { getCurrentUser, isTeacherRole } from '../Authen.js';
 
 async function menuProfesseurs() {
-    showMenu(MENU_TITLES.teachers, MENUS.teachers);
+    const user = getCurrentUser();
 
+    // Restreindre l'affichage si c'est le professeur lui-même qui navigue
+    if (user && isTeacherRole(user.role)) {
+        header("MON PROFIL ENSEIGNANT");
+        if (!user.teacher_id) {
+            console.log("  Aucun profil enseignant lié à votre compte.");
+            return;
+        }
+        const visual = professeurService.getTeacherById(user.teacher_id);
+        printRows('professeur', visual ? [visual] : []);
+        await ask("\n  Appuyez sur Entrée pour revenir...");
+        return;
+    }
+
+    showMenu(MENU_TITLES.teachers, MENUS.teachers);
     const choix = await ask(PROMPTS.choice);
+    
     switch (choix.trim()) {
         case '1': {
             const nom = await ask(PROMPTS.name);
             const matiere = await ask(PROMPTS.teacherSubject);
-            const id = professeurService.addTeacher(nom.trim(), matiere.trim());
+            const email = await ask(PROMPTS.email);
+            const password = await ask(PROMPTS.password);
+            const id = professeurService.addTeacher(nom.trim(), matiere.trim(), email.trim(), password.trim());
             console.log(`  Professeur créé avec l'ID ${id}.`);
             break;
         }

@@ -1,12 +1,12 @@
 export const MENU_TITLES = {
     main: "SYSTÈME DE GESTION D'ÉCOLE",
-    users: 'UTILISATEURS',
-    students: 'ÉTUDIANTS',
-    teachers: 'PROFESSEURS',
-    subjects: 'MATIÈRES',
-    grades: 'NOTES',
-    absences: 'ABSENCES',
-    stats: 'STATISTIQUES'
+    users: 'GESTION DES UTILISATEURS',
+    students: 'GESTION DES ÉTUDIANTS',
+    teachers: 'GESTION DES PROFESSEURS',
+    subjects: 'GESTION DES MATIÈRES',
+    grades: 'GESTION DES NOTES',
+    absences: 'GESTION DES ABSENCES',
+    stats: 'GESTION DES STATISTIQUES'
 };
 
 export const MENUS = {

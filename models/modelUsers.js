@@ -1,10 +1,12 @@
 import database from '../db/database.js';
 
 class User {
-
-  static create(name, role, email, mot_passe) {
-    const query = database.prepare('INSERT INTO users (name, role, email, mot_passe) VALUES (?, ?, ?, ?)');
-    return query.run(name, role, email, mot_passe);
+  // Les IDs optionnels reçoivent la valeur null par défaut
+  static create(name, role, email, mot_passe, student_id = null, teacher_id = null) {
+    const query = database.prepare(
+      'INSERT INTO users (name, role, email, mot_passe, student_id, teacher_id) VALUES (?, ?, ?, ?, ?, ?)'
+    );
+    return query.run(name, role, email, mot_passe, student_id, teacher_id);
   }
 
   static getAll() {
@@ -26,7 +28,6 @@ class User {
     const query = database.prepare('DELETE FROM users WHERE id = ?');
     return query.run(id);
   }
-
 }
 
 export default User;

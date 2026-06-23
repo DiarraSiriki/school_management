@@ -18,18 +18,18 @@ class Teacher {
 
     static search(keyword) {
         const query = database.prepare(`
-      SELECT * FROM teachers
-      WHERE nom LIKE ? OR matiere LIKE ?
-    `);
+          SELECT * FROM teachers
+          WHERE nom LIKE ? OR matiere LIKE ?
+        `);
         const k = `%${keyword}%`;
         return query.all(k, k);
     }
 
     static update(id, nom, matiere) {
         const query = database.prepare(`
-      UPDATE teachers SET nom = ?, matiere = ?
-      WHERE id = ?
-    `);
+          UPDATE teachers SET nom = ?, matiere = ?
+          WHERE id = ?
+        `);
         return query.run(nom, matiere, id);
     }
 
@@ -39,4 +39,4 @@ class Teacher {
     }
 }
 
-export default Teacher
+export default Teacher;
