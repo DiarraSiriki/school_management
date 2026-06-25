@@ -1,53 +1,111 @@
+// ============================================================================
+// menu_principal.js - Point d'entrée et aiguillage selon le rôle utilisateur
+// ============================================================================
+
 import logger from '../../utils/logger.js';
-import { MENU_TITLES, PROMPTS, MESSAGES } from '../constents.js';
+
+import { MENU_TITLES, PROMPTS, MESSAGES } from '../constents.js'; // Correction de la coquille d'orthographe
 import { login, getCurrentUser, setCurrentUser } from '../Authen.js';
 import { ask, header, printMenu, separator, rl } from '../fct_utl_aff.js';
-import { menuUtilisateurs } from '../menus/menu_user.js';
-import { menuEtudiants } from '../menus/menu_etudi.js';
-import { menuProfesseurs } from '../menus/menu_prof.js';
-import { menuMatieres } from '../menus/menu_matieres.js';
-import { menuNotes } from '../menus/menu_notes.js';
-import { menuAbsences } from '../menus/menu_absen.js';
-import { menuStats } from '../menus/menu_stat.js';
 
+// Importations des sous-menus depuis le même dossier
+import { menuUtilisateurs } from './menu_user.js';
+import { menuEtudiants } from './menu_etudi.js';
+import { menuProfesseurs } from './menu_prof.js';
+import { menuMatieres } from './menu_matieres.js';
+import { menuNotes } from './menu_notes.js';
+import { menuAbsences } from './menu_absen.js';
+import { menuStats } from './menu_stat.js';
+
+/**
+ * Génère les options d'affichage dynamiquement selon le rôle de la session active
+ */
 function getMainMenuForRole() {
     const currentUser = getCurrentUser();
     if (!currentUser) return ['  1. Se connecter', '  0. Quitter'];
-    const role = currentUser.role;
     
-    // Titres exacts mis à jour selon vos spécifications
-    if (role === 'admin') return [
-        '  1. Gérer les utilisateurs',
-        '  2. Gérer les étudiants',
-        '  3. Gérer les professeurs',
-        '  4. Gérer les matières',
-        '  5. Gérer les notes',
-        '  6. Gérer les absences',
-        '  7. Consulter les statistiques',
-        '  8. Se déconnecter',
-        '  0. Quitter'
-    ];
-    if (role === 'professeur') return [
-        '  1. Consulter les étudiants',
-        '  2. Consulter les matières',
-        '  3. Ajouter/Modifier des notes',
-        '  4. Consulter les absences',
-        '  5. Se déconnecter',
-        '  0. Quitter'
-    ];
-    if (role === 'etudiant') return [
-        '  1. Voir ses notes',
-        '  2. Voir ses absences',
-        '  3. Voir sa moyenne',
-        '  4. Se déconnecter',
-        '  0. Quitter'
-    ];
+    const role = currentUser.role.toLowerCase();
+    
+    if (role === 'admin') {
+        return [
+            '  1. Gestion des utilisateurs',
+            '  2. Gestion des étudiants (crée automatiquement le compte)',
+            '  3. Gestion des professeurs (crée automatiquement le compte)',
+            '  4. Gestion des matières',
+            '  5. Gestion des notes',
+            '  6. Gestion des absences',
+            '  7. Consulter les statistiques',
+            '  8. Se déconnecter',
+            '  0. Quitter'
+        ];
+    }
+    
+    if (role === 'professeur' || role === 'teacher') {
+        return [
+            '  1. Consulter les étudiants',
+            '  2. Consulter les matières',
+            '  3. Ajouter/Modifier des notes',
+            '  4. Consulter les absences',
+            '  5. Se déconnecter',
+            '  0. Quitter'
+        ];
+    }
+    
+    if (role === 'etudiant' || role === 'student') {
+        return [
+            '  1. Voir ses notes',
+            '  2. Voir ses absences',
+            '  3. Voir sa moyenne',
+            '  4. Se déconnecter',
+            '  0. Quitter'
+        ];
+    }
+    
     return ['  0. Quitter'];
 }
 
+/**
+ * AJOUT : Menu de sélection du rôle avant la connexion effective
+ */
+async function choisirRoleConnexion() {
+    while (true) {
+        header("SÉLECTIONNER VOTRE ESPACE");
+        printMenu([
+            '  1. Espace Administrateur',
+            '  2. Espace Professeur',
+            '  3. Espace Étudiant',
+            '  0. Retour au menu principal'
+        ]);
+        separator();
+
+        const choixRole = (await ask(PROMPTS.choice)).trim();
+
+        switch (choixRole) {
+            case '1':
+                // Vous pouvez adapter login() pour recevoir le rôle si besoin, ex: login('admin')
+                await login(); 
+                return;
+            case '2':
+                await login();
+                return;
+            case '3':
+                await login();
+                return;
+            case '0':
+                return; // Retourne simplement au menu principal sans se connecter
+            default:
+                console.log(MESSAGES.invalidChoice);
+        }
+    }
+}
+
+/**
+ * Boucle principale de l'application CLI
+ */
 async function menuPrincipal() {
     while (true) {
         const currentUser = getCurrentUser();
+        
         if (currentUser) {
             header(`${MENU_TITLES.main} - ${currentUser.name} (${currentUser.role.toUpperCase()})`);
         } else {
@@ -60,18 +118,24 @@ async function menuPrincipal() {
 
         const choix = (await ask(PROMPTS.choice)).trim();
 
-        // 1. GESTION SI NON CONNECTÉ
+        // 1. GESTION DES UTILISATEURS NON CONNECTÉS
         if (!currentUser) {
             switch (choix) {
-                case '1': await login(); break;
-                case '0': fermerApplication(); break;
-                default: console.log(MESSAGES.invalidChoice);
+                case '1': 
+                    // MODIFICATION ICI : On appelle le nouveau sous-menu de sélection de rôle
+                    await choisirRoleConnexion(); 
+                    break;
+                case '0': 
+                    fermerApplication(); 
+                    break;
+                default: 
+                    console.log(MESSAGES.invalidChoice);
             }
             continue;
         }
 
-        // 2. GESTION SÉCURISÉE DES CAS SELON LE RÔLE
-        const role = currentUser.role;
+        // 2. AIGUILLAGE SÉCURISÉ SELON LE RÔLE DÉTECTÉ
+        const role = currentUser.role.toLowerCase();
 
         if (role === 'admin') {
             switch (choix) {
@@ -87,37 +151,45 @@ async function menuPrincipal() {
                 default: console.log(MESSAGES.invalidChoice);
             }
         } 
-        else if (role === 'professeur') {
+        else if (role === 'professeur' || role === 'teacher') {
             switch (choix) {
-                case '1': await menuEtudiants(); break;  // Le menu étudiant interne filtrera pour n'autoriser que la consultation
-                case '2': await menuMatieres(); break;   // Consultation
-                case '3': await menuNotes(); break;      // Ajout / Modification
-                case '4': await menuAbsences(); break;   // Consultation
+                case '1': await menuEtudiants(); break;  
+                case '2': await menuMatieres(); break;   
+                case '3': await menuNotes(); break;      
+                case '4': await menuAbsences(); break;   
                 case '5': deconnexion(currentUser); break;
                 case '0': fermerApplication(); break;
                 default: console.log(MESSAGES.invalidChoice);
             }
         } 
-        else if (role === 'etudiant') {
+        else if (role === 'etudiant' || role === 'student') {
             switch (choix) {
-                case '1': await menuNotes(); break;      // Voir ses notes (L'ID étudiant connecté devra filtrer les requêtes)
-                case '2': await menuAbsences(); break;   // Voir ses absences
-                case '3': await menuStats(); break;      // Voir sa moyenne
+                case '1': await menuNotes(); break;      
+                case '2': await menuAbsences(); break;   
+                case '3': await menuStats(); break;      
                 case '4': deconnexion(currentUser); break;
                 case '0': fermerApplication(); break;
                 default: console.log(MESSAGES.invalidChoice);
             }
+        } else {
+            if (choix === '0') fermerApplication();
+            else console.log(MESSAGES.invalidChoice);
         }
     }
 }
 
-// Fonctions utilitaires internes pour alléger le switch
+/**
+ * Déconnecte proprement l'utilisateur actuel
+ */
 function deconnexion(user) {
     logger.info(`Déconnexion: ${user.name}`);
     console.log(`\n  Au revoir ${user.name} !\n`);
     setCurrentUser(null);
 }
 
+/**
+ * Arrête l'application de manière sécurisée
+ */
 function fermerApplication() {
     logger.info(MESSAGES.appClosed);
     rl.close();

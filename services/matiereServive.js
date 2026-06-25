@@ -1,5 +1,6 @@
 ﻿import Subjects from '../models/model_Subjects.js';
 import logger from '../utils/logger.js';
+
 export {
   addSubject,
   updateSubject,
@@ -9,24 +10,22 @@ export {
   listSubjects
 };
 
-function addSubject(nom, teacher_id) {
-
-  const result = Subjects.create(nom, teacher_id);
-  logger.info(`Matière ajoutée: ID=${result.lastInsertRowid}, Nom=${nom}, Professeur ID=${teacher_id}`);
+// Intégration du paramètre classe requis par la nouvelle BD
+function addSubject(nom, classe, teacher_id = null) {
+  const result = Subjects.create(nom, classe, teacher_id);
+  logger.info(`Matière ajoutée: ID=${result.lastInsertRowid}, Nom=${nom}, Classe=${classe}, Professeur ID=${teacher_id}`);
   return result.lastInsertRowid;
 }
 
-function updateSubject(id, nom, teacher_id) {
-
-  const result = Subjects.update(id, nom, teacher_id);
+function updateSubject(id, nom, classe, teacher_id = null) {
+  const result = Subjects.update(id, nom, classe, teacher_id);
   if (result.changes > 0) {
-    logger.info(`Matière modifiée: ID=${id}, Nom=${nom}, Professeur ID=${teacher_id}`);
+    logger.info(`Matière modifiée: ID=${id}, Nom=${nom}, Classe=${classe}, Professeur ID=${teacher_id}`);
   }
   return result.changes > 0;
 }
 
 function removeSubject(id) {
-
   const result = Subjects.delete(id);
   if (result.changes > 0) {
     logger.info(`Matière supprimée: ID=${id}`);
@@ -35,14 +34,12 @@ function removeSubject(id) {
 }
 
 function searchSubject(keyword) {
-
-    const results = Subjects.search(keyword);
-     logger.info(`Recherche de matière: Mot-clé='${keyword}' (${results.length} résultats)`);
-    return results;
+  const results = Subjects.search(keyword);
+  logger.info(`Recherche de matière: Mot-clé='${keyword}' (${results.length} résultats)`);
+  return results;
 }
 
 function getSubjectById(id) {
-
   const subject = Subjects.getById(id);
   if (subject) {
     logger.info(`Matière trouvée par ID: ${id}`);
@@ -51,7 +48,6 @@ function getSubjectById(id) {
 }
 
 function listSubjects() {
-
   const subjects = Subjects.getAll();
   logger.info(`Liste des matières consultée (${subjects.length} matières)`);
   return subjects;

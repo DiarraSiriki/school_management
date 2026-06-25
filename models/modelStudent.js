@@ -1,14 +1,20 @@
 import database from '../db/database.js';
 
 class Student {
-  static create(matricule, nom, prenom, age, classe) {
+  // user_id lie l'étudiant à son compte utilisateur (optionnel au départ)
+  static create(matricule, nom, prenom, age, classe, user_id = null) {
     try {
-      const query = database.prepare('INSERT INTO students (matricule, nom, prenom, age, classe) VALUES (?, ?, ?, ?, ?)');
-      const result = query.run(matricule, nom, prenom, age, classe);
+      const query = database.prepare(`
+        INSERT INTO students (matricule, nom, prenom, age, classe, user_id) 
+        VALUES (?, ?, ?, ?, ?, ?)
+      `);
+      const result = query.run(matricule, nom, prenom, age, classe, user_id);
+      console.log(`[Student Model] Insertion réussie: student_id=${result.lastInsertRowid}, matricule=${matricule}, user_id=${user_id}`);
       database.exec('PRAGMA optimize');
       return result;
     } catch (err) {
       console.error('Erreur lors de l\'insertion d\'un étudiant:', err.message);
+      console.error('Détails:', err);
       throw err;
     }
   }
@@ -28,21 +34,27 @@ class Student {
     return query.get(matricule);
   }
 
+  static getByUserId(user_id) {
+    const query = database.prepare('SELECT * FROM students WHERE user_id = ?');
+    return query.get(user_id);
+  }
+
   static search(keyword) {
     const query = database.prepare(`
       SELECT * FROM students
-      WHERE nom LIKE ? OR prenom LIKE ? OR matricule LIKE ?
+      WHERE nom LIKE ? OR prenom LIKE ? OR matricule LIKE ? OR classe LIKE ?
     `);
     const k = `%${keyword}%`;
-    return query.all(k, k, k);
+    return query.all(k, k, k, k);
   }
 
-  static update(id, matricule, nom, prenom, age, classe) {
+  static update(id, matricule, nom, prenom, age, classe, user_id = null) {
     const query = database.prepare(`
-      UPDATE students SET matricule = ?, nom = ?, prenom = ?, age = ?, classe = ?
+      UPDATE students 
+      SET matricule = ?, nom = ?, prenom = ?, age = ?, classe = ?, user_id = ?
       WHERE id = ?
     `);
-    return query.run(matricule, nom, prenom, age, classe, id);
+    return query.run(matricule, nom, prenom, age, classe, user_id, id);
   }
 
   static delete(id) {

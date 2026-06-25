@@ -1,12 +1,13 @@
 import database from '../db/database.js';
 
 class User {
-  // Les IDs optionnels reçoivent la valeur null par défaut
-  static create(name, role, email, mot_passe, student_id = null, teacher_id = null) {
-    const query = database.prepare(
-      'INSERT INTO users (name, role, email, mot_passe, student_id, teacher_id) VALUES (?, ?, ?, ?, ?, ?)'
-    );
-    return query.run(name, role, email, mot_passe, student_id, teacher_id);
+  // Le rôle peut être 'admin', 'teacher', 'student', etc.
+  static create(name, role, email, mot_passe) {
+    const query = database.prepare(`
+      INSERT INTO users (name, role, email, mot_passe) 
+      VALUES (?, ?, ?, ?)
+    `);
+    return query.run(name, role, email, mot_passe);
   }
 
   static getAll() {
@@ -22,6 +23,15 @@ class User {
   static getByEmail(email) {
     const query = database.prepare('SELECT * FROM users WHERE email = ?');
     return query.get(email);
+  }
+
+  static update(id, name, role, email, mot_passe) {
+    const query = database.prepare(`
+      UPDATE users 
+      SET name = ?, role = ?, email = ?, mot_passe = ?
+      WHERE id = ?
+    `);
+    return query.run(name, role, email, mot_passe, id);
   }
 
   static delete(id) {

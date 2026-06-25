@@ -2,28 +2,23 @@ import User from '../models/modelUsers.js';
 import logger from '../utils/logger.js';
 
 export {
-    addUser,
-    authenticate,
-    removeUser,
-    listUsers
-}
+  addUser,
+  authenticate,
+  removeUser,
+  listUsers
+};
 
-// Ajout d'un objet destructuré en paramètre pour intercepter soit mot_passe, soit password
-function addUser(name, role, email, mot_passe, studentId = null, teacherId = null) {
-  
-  // Sécurité : Si mot_passe est absent ou est un objet (ce qui arrive si l'ordre des arguments change),
-  // ou si vous avez passé "password" par mégarde à la place de mot_passe.
+function addUser(name, role, email, mot_passe) {
   let passwordToSave = mot_passe;
   
-  // Si jamais le mot de passe reçu est undefined, cela évite le crash SQLite NOT NULL
   if (!passwordToSave) {
-      logger.error(`Tentative d'ajout de l'utilisateur ${name} sans mot de passe.`);
-      throw new Error("Le mot de passe ne peut pas être vide (NOT NULL constraint).");
+    logger.error(`Tentative d'ajout de l'utilisateur ${name} sans mot de passe.`);
+    throw new Error("Le mot de passe ne peut pas être vide (NOT NULL constraint).");
   }
 
-  const result = User.create(name, role, email, passwordToSave, studentId, teacherId);
-  logger.info(`Utilisateur ajouté: ID=${result.lastInsertRowid}, Nom=${name}, Rôle=${role}, studentId=${studentId}, teacherId=${teacherId}`);
-  return result.lastInsertRowid;
+  const result = User.create(name, role, email, passwordToSave);
+  logger.info(`Utilisateur ajouté: ID=${result.lastInsertRowid}, Nom=${name}, Rôle=${role}`);
+  return result.lastInsertRowid; // Retourne l'user_id généré
 }
 
 function authenticate(email, mot_passe) {

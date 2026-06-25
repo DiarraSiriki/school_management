@@ -30,7 +30,6 @@ class Grade {
     const query = database.prepare('DELETE FROM grades WHERE id = ?');
     return query.run(id);
   }
-
 }
 
 export default Grade;

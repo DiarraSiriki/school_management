@@ -1,24 +1,19 @@
 import * as professeurService from '../../services/teacherService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import { ask, showMenu, printRows, parseId } from '../../config/fct_utl_aff.js';
-import { getCurrentUser, isTeacherRole } from '../Authen.js';
+import { ask, showMenu, printRows, parseId, header } from '../fct_utl_aff.js';
+import { getCurrentUser } from '../Authen.js';
 
 async function menuProfesseurs() {
     const user = getCurrentUser();
 
-    // Restreindre l'affichage si c'est le professeur lui-même qui navigue
-    if (user && isTeacherRole(user.role)) {
-        header("MON PROFIL ENSEIGNANT");
-        if (!user.teacher_id) {
-            console.log("  Aucun profil enseignant lié à votre compte.");
-            return;
-        }
-        const visual = professeurService.getTeacherById(user.teacher_id);
-        printRows('professeur', visual ? [visual] : []);
+    // Pour professeur : accès refusé
+    if (user && (user.role === 'teacher' || user.role === 'professeur')) {
+        console.log("  [Accès refusé] Les professeurs ne peuvent pas gérer les autres professeurs.");
         await ask("\n  Appuyez sur Entrée pour revenir...");
         return;
     }
 
+    // Pour admin : menu complet
     showMenu(MENU_TITLES.teachers, MENUS.teachers);
     const choix = await ask(PROMPTS.choice);
     

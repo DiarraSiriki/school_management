@@ -1,3 +1,7 @@
+// ============================================================
+// constents.js - Configuration des textes, menus et prompts
+// ============================================================
+
 export const MENU_TITLES = {
     main: "SYSTÈME DE GESTION D'ÉCOLE",
     users: 'GESTION DES UTILISATEURS',
@@ -21,13 +25,13 @@ export const MENUS = {
         '  0. Quitter'
     ],
     users: [
-        '  1. Ajouter un utilisateur',
+        '  1. Ajouter un utilisateur ',
         '  2. Supprimer un utilisateur',
         '  3. Lister les utilisateurs',
         '  0. Retour'
     ],
     students: [
-        '  1. Ajouter un étudiant',
+        '  1. Ajouter un étudiant (Crée aussi son compte)',
         '  2. Modifier un étudiant',
         '  3. Supprimer un étudiant',
         '  4. Rechercher un étudiant',
@@ -35,7 +39,7 @@ export const MENUS = {
         '  0. Retour'
     ],
     teachers: [
-        '  1. Ajouter un professeur',
+        '  1. Ajouter un professeur (Crée aussi son compte)',
         '  2. Modifier un professeur',
         '  3. Supprimer un professeur',
         '  4. Rechercher un professeur',
@@ -44,15 +48,15 @@ export const MENUS = {
     ],
     subjects: [
         '  1. Ajouter une matière',
-        '  2. Lister les matières',
-        '  3. Affecter un professeur à une matière',
+        '  2. Modifier une matière (Assignation prof/classe)',
+        '  3. Lister les matières',
         '  0. Retour'
     ],
     grades: [
         '  1. Ajouter une note',
         '  2. Modifier une note',
         '  3. Supprimer une note',
-        '  4. Voir la moyenne d\'un étudiant',
+        '  4. Voir les notes d\'un étudiant',
         '  0. Retour'
     ],
     absences: [
@@ -62,41 +66,41 @@ export const MENUS = {
         '  0. Retour'
     ],
     stats: [
-        '  1. Meilleur étudiant',
-        '  2. Moyenne générale',
-        '  3. Absences par étudiant',
-        '  4. Classement général',
+        '  1. Meilleur étudiant (Major)',
+        '  2. Moyenne générale de l\'établissement',
+        '  3. Rapport global des absences',
+        '  4. Classement général des élèves',
         '  0. Retour'
     ]
 };
 
 export const PROMPTS = {
-    choice: '  Veillez faire votre choix : ',
+    choice: '  Veuillez faire votre choix : ',
     loginEmail: '  Email de connexion : ',
     loginPassword: '  Mot de passe de connexion : ',
-    name: '  Nom : ',
-    role: '  Rôle (admin / professeur / etudiant) : ',
+    name: '  Nom: ',
+    role: '  Rôle (admin / teacher / student) : ',
     email: '  Email : ',
     password: '  Mot de passe : ',
-    userDeleteId: '  ID à supprimer : ',
+    userDeleteId: '  ID de l\'utilisateur à supprimer : ',
     matricule: '  Matricule : ',
     firstName: '  Prénom : ',
     age: '  Âge : ',
-    classe: '  Classe : ',
+    classe: '  Classe (ex: 2nde A, Master 1) : ',
     studentIdOrMatricule: '  ID ou matricule de l\'étudiant : ',
     studentIdOrMatriculeToDelete: '  ID ou matricule à supprimer : ',
-    searchTerm: '  le matricule ou le nom de l\'étudiant : ',
-    teacherSubject: '  Matière : ',
+    searchTerm: '  Recherche (matricule, nom ou classe) : ',
+    teacherSubject: '  Matière principale enseignée : ',
     teacherId: '  ID du professeur : ',
     subjectId: '  ID de la matière : ',
-    gradeId: '  ID de la note à modifier : ',
+    gradeId: '  ID de la note : ',
     newGrade: '  Nouvelle note (0-20) : ',
     absenceDate: '  Date (DD-MM-YYYY) : ',
     absenceStatus: '  Statut (justifiée / non justifiée) : ',
     absenceId: '  ID de l\'absence : ',
     newAbsenceStatus: '  Nouveau statut (justifiée / non justifiée) : ',
     subjectName: '  Nom de la matière : ',
-    teacherIdOptional: '  ID du professeur  : ',
+    teacherIdOptional: '  ID du professeur assigné (Optionnel, Entrée pour sauter) : ',
     gradeValue: '  Note (0-20) : '
 };
 
@@ -104,16 +108,16 @@ export const MESSAGES = {
     invalidChoice: '  Choix invalide.\n',
     invalidCredentials: '  Email ou mot de passe incorrect.\n',
     accessDenied: '  Accès refusé pour ce rôle.\n',
-    userDeleted: '  Utilisateur supprimé.',
+    userDeleted: '  Utilisateur supprimé avec succès.',
     userNotFound: '  Utilisateur introuvable.',
     studentNotFound: '  Étudiant introuvable.',
     teacherNotFound: '  Professeur introuvable.',
     subjectNotFound: '  Matière introuvable.',
     invalidId: '  ID invalide.',
     invalidData: '  Données invalides.',
-    modified: '  Modification échouée.',
-    deleted: '  Suppression échouée.',
-    statusModified: '  Statut modifié.',
+    modified: '  Opération de modification échouée.',
+    deleted: '  Opération de suppression échouée.',
+    statusModified: '  Statut mis à jour avec succès.',
     noGrades: '  Aucun enregistrement de note pour cet étudiant.',
     noStudent: '  Aucun étudiant trouvé.',
     appStarted: 'Application démarrée',

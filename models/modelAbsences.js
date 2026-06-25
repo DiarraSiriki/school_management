@@ -29,6 +29,10 @@ class Absence {
     return query.run(status, id);
   }
 
+  static delete(id) {
+    const query = database.prepare('DELETE FROM absences WHERE id = ?');
+    return query.run(id);
+  }
 }
 
 export default Absence;

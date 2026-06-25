@@ -1,30 +1,30 @@
 import Teacher from '../models/teacher_models.js';
 import logger from '../utils/logger.js';
-import { addUser } from './userService.js'; // Correction : Import de addUser au lieu de createUser
+import { addUser } from './userService.js'; 
 
 export {
-    addTeacher,
-    updateTeacher,
-    removeTeacher,
-    searchTeacher,
-    listTeachers,
-    getTeacherById
-}
+  addTeacher,
+  updateTeacher,
+  removeTeacher,
+  searchTeacher,
+  listTeachers,
+  getTeacherById
+};
 
 function addTeacher(nom, matiere, email, password) {
-  // 1. Enregistre dans la table teachers et récupère le résultat
-  const result = Teacher.create(nom, matiere);
-  const teacherId = result.lastInsertRowid; // Récupère l'ID généré automatiquement
+  // 1. On crée d'abord le compte utilisateur pour obtenir le user_id
+  const userId = addUser(nom, 'teacher', email, password);
 
-  // 2. Enregistre dans la table users avec le teacher_id associé
-  addUser(nom, 'professeur', email, password, null, teacherId);
-  
-  logger.info(`Professeur ajouté: ID=${teacherId}, Nom=${nom}`);
+  // 2. On enregistre dans la table teachers avec le user_id associé
+  const result = Teacher.create(nom, matiere, userId);
+  const teacherId = result.lastInsertRowid;
+
+  logger.info(`Professeur ajouté: ID=${teacherId}, Nom=${nom}, UserID=${userId}`);
   return teacherId;
 }
 
-function updateTeacher(id, nom, matiere) {
-  const result = Teacher.update(id, nom, matiere);
+function updateTeacher(id, nom, matiere, user_id = null) {
+  const result = Teacher.update(id, nom, matiere, user_id);
   if (result.changes > 0) {
     logger.info(`Professeur modifié: ID=${id}`);
   }

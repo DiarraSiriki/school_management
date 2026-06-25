@@ -1,131 +1,114 @@
+import User from '../models/modelUsers.js';
+import Student from '../models/modelStudent.js';
+import Teacher from '../models/teacher_models.js';
 import logger from '../utils/logger.js';
-import { ask, header } from './fct_utl_aff.js';
-import { PROMPTS, MESSAGES } from './constents.js';
-import * as userService from '../services/userService.js';
+import { ask } from './fct_utl_aff.js';
 
 let currentUser = null;
 
-export function setCurrentUser(user) {
-    currentUser = user;
-}
-
-export function getCurrentUser() {
-    return currentUser;
-}
-
-export const ROLES = {
-    ADMIN: 'admin',
-    TEACHER: 'professeur',
-    STUDENT: 'etudiant'
+export {
+  authenticate,
+  getUserProfile,
+  login,
+  getCurrentUser,
+  setCurrentUser
 };
 
-export const MENU_BY_ROLE = {
-    [ROLES.ADMIN]: [
-        '  1. Utilisateurs',
-        '  2. Étudiants',
-        '  3. Professeurs',
-        '  4. Matières',
-        '  5. Notes',
-        '  6. Absences',
-        '  7. Statistiques',
-        '  8. Se déconnecter',
-        '  0. Quitter'
-    ],
-    [ROLES.TEACHER]: [
-        '  1. Étudiants',
-        '  2. Matières',
-        '  3. Notes',
-        '  4. Absences',
-        '  5. Statistiques',
-        '  6. Se déconnecter',
-        '  0. Quitter'
-    ],
-    [ROLES.STUDENT]: [
-        '  1. Notes',
-        '  2. Absences',
-        '  3. Statistiques',
-        '  4. Se déconnecter',
-        '  0. Quitter'
-    ]
-};
+/**
+ * Authentifie un utilisateur par email et mot de passe
+ * et retourne son profil complet (User + Données spécifiques Prof/Élève)
+ */
+function authenticate(email, mot_passe) {
+  // 1. Récupération du compte utilisateur global
+  const user = User.getByEmail(email);
+  if (!user) {
+    logger.warn(`Tentative de connexion échouée : email introuvable (${email})`);
+    return null;
+  }
 
-//
-// AUTHENTIFICATION - Connexion de l'utilisateur avec sélection du rôle
-// 
-export async function login() {
-    while (!currentUser) {
-        header('CONNEXION');
-        
-        // 1. Demande du profil / rôle
-        console.log("  Sélectionnez votre profil :");
-        console.log("  1. Administrateur");
-        console.log("  2. Professeur");
-        console.log("  3. Étudiant");
-        
-        const choixProfil = await ask("\n  Votre choix (1-3) : ");
-        let roleRecherche = '';
-        
-        switch (choixProfil.trim()) {
-            case '1':
-                roleRecherche = ROLES.ADMIN;
-                break;
-            case '2':
-                roleRecherche = ROLES.TEACHER;
-                break;
-            case '3':
-                roleRecherche = ROLES.STUDENT;
-                break;
-            default:
-                console.log("  Choix de profil invalide. Veuillez réessayer.\n");
-                continue; // Relance la boucle de connexion
-        }
+  // 2. Vérification du mot de passe
+  if (user.mot_passe !== mot_passe) {
+    logger.warn(`Tentative de connexion échouée : mot de passe incorrect pour ${email}`);
+    return null;
+  }
 
-        // 2. Demande des identifiants de connexion
-        console.log(`\n  --- Connexion Espace [${roleRecherche.toUpperCase()}] ---`);
-        const email = await ask(PROMPTS.loginEmail);
-        const mot_de_passe = await ask(PROMPTS.loginPassword);
-        
-        const utilisateur = userService.authenticate(email.trim(), mot_de_passe.trim());
-        
-        // 3. Vérification des identifiants ET correspondance du rôle sélectionné
-        if (utilisateur && normalizeRole(utilisateur.role) === roleRecherche) {
-            const user = {
-                ...utilisateur,
-                role: normalizeRole(utilisateur.role) // Centralise le rôle en français ('etudiant' ou 'professeur')
-            };
-            setCurrentUser(user);
-            logger.info(`Connexion réussie: ${user.name} (${user.role}) | student_id: ${user.student_id} | teacher_id: ${user.teacher_id}`);
-            console.log(`\n  Bienvenue ${user.name} (${user.role})\n`);
-            return;
-        }
-        
-        // Si les identifiants sont faux ou si le compte n'a pas le rôle demandé
-        console.log("\n  [Erreur] Identifiants incorrects ou rôle non autorisé pour ce compte.\n");
+  // 3. Récupération du profil lié selon le rôle
+  const fullProfile = getUserProfile(user);
+
+  logger.info(`Connexion réussie : ID=${user.id}, Rôle=${user.role}, Nom=${user.name}`);
+  return fullProfile;
+}
+
+/**
+ * Fonction interne/publique pour lier les infos de la table 'users' 
+ * avec les détails de la table 'students' ou 'teachers'
+ */
+function getUserProfile(user) {
+  if (!user) return null;
+
+  // Copie des infos de base de l'utilisateur (sans le mot de passe pour la sécurité)
+  const { mot_passe, ...userWithoutPassword } = user;
+  let profileDetails = {};
+
+  if (user.role === 'student' || user.role === 'etudiant') {
+    // Nouvelle logique : on cherche par user_id dans la table students
+    const studentInfo = Student.getByUserId(user.id);
+    if (studentInfo) {
+      profileDetails = {
+        student_id: studentInfo.id,
+        matricule: studentInfo.matricule,
+        nom: studentInfo.nom,
+        prenom: studentInfo.prenom,
+        age: studentInfo.age,
+        classe: studentInfo.classe
+      };
     }
+  } else if (user.role === 'teacher' || user.role === 'professeur') {
+    // Nouvelle logique : on cherche par user_id dans la table teachers
+    const teacherInfo = Teacher.getByUserId(user.id);
+    if (teacherInfo) {
+      profileDetails = {
+        teacher_id: teacherInfo.id,
+        nom: teacherInfo.nom,
+        matiere: teacherInfo.matiere
+      };
+    }
+  }
+
+  // On fusionne les infos de compte (id, name, email, role) avec le profil métier
+  return {
+    ...userWithoutPassword,
+    profile: profileDetails
+  };
 }
 
-export function normalizeRole(role) {
-    if (!role || typeof role !== 'string') return '';
-    const value = role.trim().toLowerCase();
-    if (value === 'admin') return ROLES.ADMIN;
-    if (value === 'professeur' || value === 'prof' || value === 'teacher') return ROLES.TEACHER;
-    if (value === 'etudiant' || value === 'étudiant' || value === 'student') return ROLES.STUDENT;
-    return value;
+/**
+ * Fonction de login interactive
+ */
+async function login() {
+  console.log('\n  === CONNEXION ===');
+  const email = await ask(' Veillez entrer votre mail : ');
+  const mot_passe = await ask(' Veillez entrer votre mot de passe : ');
+  
+  const user = authenticate(email.trim(), mot_passe.trim());
+  if (user) {
+    setCurrentUser(user);
+    console.log(`  Bienvenue, ${user.name} !\n`);
+  } else {
+    console.log('  Email ou mot de passe incorrect.\n');
+  }
 }
 
-export function isAdminRole(role) {
-    return normalizeRole(role) === ROLES.ADMIN;
+/**
+ * Récupère l'utilisateur courant
+ */
+function getCurrentUser() {
+  return currentUser;
 }
 
-export function isTeacherRole(role) {
-    return normalizeRole(role) === ROLES.TEACHER;
-}
-
-export function isStudentRole(role) {
-    return normalizeRole(role) === ROLES.STUDENT;
-}
-
-export function getMenuForRole(role) {
-    const normalized = normalizeRole(role); // Correction de la variable 'normaliazed'
-    return MENU_BY_ROLE[normalized] || ['  0. Quitter'];
+/**
+ * Définit l'utilisateur courant
+ */
+function setCurrentUser(user) {
+  currentUser = user;
 }

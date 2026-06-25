@@ -1,13 +1,12 @@
 import * as etudiantService from '../../services/studentService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import { ask, showMenu, printRows, resolveStudentId } from '../../config/fct_utl_aff.js';
-import { getCurrentUser, isStudentRole } from '../Authen.js';
+import { ask, showMenu, printRows, resolveStudentId, header } from '../fct_utl_aff.js';
+import { getCurrentUser } from '../Authen.js';
 
 async function menuEtudiants() {
     const user = getCurrentUser();
     
-    // Si un étudiant accède à ce menu, on filtre directement ses données personnelles
-    if (user && isStudentRole(user.role)) {
+    if (user && (user.role === 'student' || user.role === 'etudiant')) {
         header("MON PROFIL ÉTUDIANT");
         if (!user.student_id) {
             console.log("  Aucun profil physique étudiant lié à votre compte.");
@@ -19,6 +18,16 @@ async function menuEtudiants() {
         return;
     }
 
+    // Pour professeur : afficher un menu limité (lecture seule)
+    if (user && (user.role === 'teacher' || user.role === 'professeur')) {
+        header("CONSULTER LES ÉTUDIANTS");
+        const students = etudiantService.listStudents();
+        printRows('étudiant', students);
+        await ask("\n  Appuyez sur Entrée pour revenir...");
+        return;
+    }
+
+    // Pour admin : menu complet
     showMenu(MENU_TITLES.students, MENUS.students);
     const choix = await ask(PROMPTS.choice);
     
@@ -29,8 +38,9 @@ async function menuEtudiants() {
             const prenom = await ask(PROMPTS.firstName);
             const age = await ask(PROMPTS.age);
             const classe = await ask(PROMPTS.classe);
+            const email = await ask(PROMPTS.email);
             const password = await ask(PROMPTS.password);
-            const id = etudiantService.addStudent(matricule.trim(), nom.trim(), prenom.trim(), parseInt(age, 10), classe.trim(), password.trim());
+            const id = etudiantService.addStudent(matricule.trim(), nom.trim(), prenom.trim(), parseInt(age, 10), classe.trim(), email.trim(), password.trim());
             console.log(`  Étudiant créé avec l'ID ${id}.`);
             break;
         }
@@ -48,9 +58,7 @@ async function menuEtudiants() {
             const prenom = await ask(PROMPTS.firstName);
             const age = await ask(PROMPTS.age);
             const classe = await ask(PROMPTS.classe);
-            const email = await ask(PROMPTS.email);
-            const password = await ask(PROMPTS.password);
-            const ok = etudiantService.updateStudent(id, matricule.trim(), nom.trim(), prenom.trim(), parseInt(age, 10), classe.trim(), email.trim(), password.trim());
+            const ok = etudiantService.updateStudent(id, matricule.trim(), nom.trim(), prenom.trim(), parseInt(age, 10), classe.trim());
             console.log(ok ? '  Étudiant modifié.' : '  Modification échouée.');
             break;
         }

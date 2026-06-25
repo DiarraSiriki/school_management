@@ -1,42 +1,37 @@
 import Grade from '../models/modelGrade.js';
-import logger from '../utils/logger.js';
- export {
-    addGrade,
-    updateGrade,
-    removeGrade,
-    listGrades,
-    getGradeById,
-    getStudentGrades
+
+export {
+  addGrade,
+  updateGrade,
+  removeGrade,
+  listGrades,
+  getGradeById,
+  getStudentGrades
 };
 
 function addGrade(student_id, subject_id, note) {
-
-    const result = Grade.create(student_id, subject_id, note);
-    return result.lastInsertRowid;
+  const result = Grade.create(student_id, subject_id, note);
+  return result.lastInsertRowid;
 }
 
 function updateGrade(id, note) {
-
-    const result = Grade.update(id, note);
-    return result.changes > 0;
+  const result = Grade.update(id, note);
+  return result.changes > 0;
 }
 
 function removeGrade(id) {
-
-    const result = Grade.delete(id);
-    return result.changes > 0;
+  const result = Grade.delete(id);
+  return result.changes > 0;
 }
 
 function listGrades() {
-
-    return Grade.getAll();
+  return Grade.getAll();
 }
 
 function getGradeById(id) {
-    return Grade.getById(id);
+  return Grade.getById(id);
 }
 
 function getStudentGrades(student_id) {
-
-    return Grade.getByStudent(student_id);
+  return Grade.getByStudent(student_id);
 }

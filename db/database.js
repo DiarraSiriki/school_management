@@ -15,27 +15,23 @@ db.pragma('journal_mode = WAL');
 db.pragma('synchronous = NORMAL');
 db.pragma('foreign_keys = ON');
 
-console.log(`Base de donnees connectee : ${dbPath}`);
+console.log(`Base de données connectée : ${dbPath}`);
 
-// ------------------------------------------------------------
-// TABLE USERS  (table de base — creee en premier)
-// user_id dans students/teachers pointe ici
-// ------------------------------------------------------------
+// 1. TABLE USERS
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
-    id         INTEGER PRIMARY KEY AUTOINCREMENT,
-    name       TEXT    NOT NULL,
-    role       TEXT    NOT NULL,
-    email      TEXT    NOT NULL UNIQUE,
-    mot_passe  TEXT    NOT NULL,
-    student_id INTEGER UNIQUE REFERENCES students(id) ON DELETE SET NULL,
-    teacher_id INTEGER UNIQUE REFERENCES teachers(id) ON DELETE SET NULL
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    name      TEXT    NOT NULL,
+    role      TEXT    NOT NULL, -- 'admin', 'teacher', 'student'
+    email     TEXT    NOT NULL UNIQUE, -- Remplacement de pseudo par email
+    mot_passe TEXT    NOT NULL
   )
 `);
 
-// ------------------------------------------------------------
-// TABLE STUDENTS
-// ------------------------------------------------------------
+
+// 2. TABLE STUDENTS
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS students (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -43,57 +39,62 @@ db.exec(`
     nom       TEXT    NOT NULL,
     prenom    TEXT    NOT NULL,
     age       INTEGER NOT NULL,
-    classe    TEXT    NOT NULL
+    classe    TEXT    NOT NULL,
+    user_id   INTEGER UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
   )
 `);
 
-// ------------------------------------------------------------
-// TABLE TEACHERS
-// ------------------------------------------------------------
+
+// 3. TABLE TEACHERS
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS teachers (
-    id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom     TEXT NOT NULL,
-    matiere TEXT NOT NULL
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom      TEXT NOT NULL,
+    matiere  TEXT NOT NULL,
+    user_id  INTEGER UNIQUE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
   )
 `);
 
-// ------------------------------------------------------------
-// TABLE SUBJECTS
-// ------------------------------------------------------------
+
+// 4. TABLE SUBJECTS
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS subjects (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     nom        TEXT    NOT NULL,
+    classe     TEXT    NOT NULL,
     teacher_id INTEGER,
-    FOREIGN KEY (teacher_id) REFERENCES teachers(id)
+    FOREIGN KEY (teacher_id) REFERENCES teachers(id) ON DELETE SET NULL
   )
 `);
 
-// ------------------------------------------------------------
-// TABLE GRADES
-// ------------------------------------------------------------
+
+// 5. TABLE GRADES
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS grades (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     student_id INTEGER NOT NULL,
     subject_id INTEGER NOT NULL,
     note       REAL    NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id),
-    FOREIGN KEY (subject_id) REFERENCES subjects(id)
+    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE,
+    FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE CASCADE
   )
 `);
 
-// ------------------------------------------------------------
-// TABLE ABSENCES
-// ------------------------------------------------------------
+
+// 6. TABLE ABSENCES
+
 db.exec(`
   CREATE TABLE IF NOT EXISTS absences (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     student_id INTEGER NOT NULL,
-    date       TEXT    NOT NULL,
+    date       TEXT    NOT NULL, -- Format YYYY-MM-DD
     status     TEXT    NOT NULL,
-    FOREIGN KEY (student_id) REFERENCES students(id)
+    FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
   )
 `);
 

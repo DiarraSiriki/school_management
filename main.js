@@ -6,7 +6,7 @@
 import './db/database.js';
 import logger from './utils/logger.js';
 
-import { normalizeRole, getMenuForRole, isAdminRole, isTeacherRole, isStudentRole, login } from './config/Authen.js';
+import { login } from './config/Authen.js';
 
 import {Menu_principal} from './config/menus/Menu_principal.js';
 

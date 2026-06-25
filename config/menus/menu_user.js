@@ -1,9 +1,6 @@
 import * as userService from '../../services/userService.js';
-import * as etudiantService from '../../services/studentService.js';
-import * as professeurService from '../../services/teacherService.js';
-import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import { ask, header, printMenu, separator, printRows, parseId } from '../../config/fct_utl_aff.js';
-import { normalizeRole, ROLES } from '../Authen.js';
+import { MENU_TITLES, MENUS, PROMPTS } from '../constents.js';
+import { ask, header, printMenu, separator, printRows, parseId } from '../fct_utl_aff.js';
 
 async function menuUtilisateurs() {
     header(MENU_TITLES.users);
@@ -15,32 +12,18 @@ async function menuUtilisateurs() {
         case '1': {
             const name = await ask(PROMPTS.name);
             const roleInput = await ask(PROMPTS.role);
-            const role = normalizeRole(roleInput);
+            const role = roleInput.trim().toLowerCase();
             const email = await ask(PROMPTS.email);
             const mot_de_passe = await ask(PROMPTS.password);
-            
-            let studentId = null;
-            let teacherId = null;
 
-            if (role === ROLES.STUDENT) {
-                const sInput = await ask("  ID de l'étudiant à lier : ");
-                const targetId = parseId(sInput);
-                if(targetId && etudiantService.getStudentById(targetId)) {
-                    studentId = targetId;
-                } else {
-                    console.log("  [Attention] ID Étudiant introuvable. Compte créé sans liaison.");
-                }
-            } else if (role === ROLES.TEACHER) {
-                const tInput = await ask("  ID du professeur à lier : ");
-                const targetId = parseId(tInput);
-                if(targetId && professeurService.getTeacherById(targetId)) {
-                    teacherId = targetId;
-                } else {
-                    console.log("  [Attention] ID Professeur introuvable. Compte créé sans liaison.");
-                }
+            if (role === 'student' || role === 'etudiant' || role === 'teacher' || role === 'professeur') {
+                console.log("  [Info] Pour créer un étudiant, utilisez le menu 'Étudiants' (option 2 du menu principal).");
+                console.log("  [Info] Pour créer un professeur, utilisez le menu 'Professeurs' (option 3 du menu principal).");
+                console.log("  Ce menu 'Utilisateurs' est réservé aux comptes administratifs uniquement.");
+                break;
             }
 
-            const id = userService.addUser(name.trim(), role, email.trim(), mot_de_passe.trim(), studentId, teacherId);
+            const id = userService.addUser(name.trim(), role, email.trim(), mot_de_passe.trim());
             console.log(`  Utilisateur créé avec l'ID ${id}.`);
             break;
         }
