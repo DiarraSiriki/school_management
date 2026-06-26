@@ -1,4 +1,4 @@
-import * as etudiantService from '../../services/studentService.js';
+
 import * as absenceService from '../../services/absenceService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
 import { ask, showMenu, printRows, resolveStudentId, parseId, header } from '../fct_utl_aff.js';
@@ -15,6 +15,7 @@ async function menuAbsences() {
         await ask("\n  Appuyez sur Entrée pour revenir...");
         return;
     }
+    
 
     // Pour professeur : menu limité (consulter absences des étudiants)
     if (user && (user.role === 'teacher' || user.role === 'professeur')) {

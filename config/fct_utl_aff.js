@@ -1,6 +1,4 @@
-// ============================================================
-// utils/cliUtils.js (ou outils CLI)
-// ============================================================
+
 
 import readline from 'readline';
 import * as etudiantService from '../services/studentService.js';
@@ -17,16 +15,22 @@ function ask(question) {
     return new Promise((resolve) => rl.question(question, resolve));
 }
 
-/**
- * Affiche un joli en-tête encadré pour les titres de sections
- */
-function header(titre) {
-    // On force le titre à s'afficher sur 40 caractères, centré ou aligné à gauche
-    const texte = titre.padEnd(40, ' '); 
 
-    console.log('\n╔════════════════════════════════════════════╗');
-    console.log(`║  ${texte}  ║`);
-    console.log('╚════════════════════════════════════════════╝');
+function header(titre) {
+    // Largeur totale de l'intérieur du cadre
+    const largeurInterieure = 60; 
+    
+    // On remplit le titre avec des espaces pour atteindre la largeur voulue
+    // (- 2 pour laisser un espace vide après le premier ║ et avant le dernier ║)
+    const texte = titre.padEnd(largeurInterieure - 2, ' '); 
+
+    // Construction des lignes du haut et du bas dynamiquement
+    const ligneHaut = '╔' + '═'.repeat(largeurInterieure) + '╗';
+    const ligneBas = '╚' + '═'.repeat(largeurInterieure) + '╝';
+
+    console.log(`\n${ligneHaut}`);
+    console.log(`║ ${texte} ║`);
+    console.log(ligneBas);
 }
 /**
  * Ligne de séparation visuelle

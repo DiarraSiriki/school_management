@@ -1,5 +1,5 @@
-
 import * as statsService from '../../services/statisService.js'; 
+import * as noteService from '../../services/gradeService.js'; 
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
 import { ask, showMenu, printRows, resolveStudentId, header } from '../fct_utl_aff.js';
 import { getCurrentUser } from '../Authen.js';
@@ -7,12 +7,15 @@ import { getCurrentUser } from '../Authen.js';
 async function menuStats() {
     const user = getCurrentUser();
 
+    // --- SECTION ÉTUDIANT ---
     if (user && (user.role === 'student' || user.role === 'etudiant')) {
         header("MA MOYENNE GLOBALE");
-        const rankings = statsService.getRankings();
-        const monProfil = rankings.find(s => s.id === user.student_id);
-        if (monProfil) {
-            console.log(`\n  Votre Moyenne Actuelle : ${monProfil.moyenne} / 20`);
+        
+        // Utilisation directe du service SQL de note pour l'étudiant connecté
+        const moyenne = noteService.calculateAverage(user.student_id);
+        
+        if (moyenne !== null && !Number.isNaN(moyenne)) {
+            console.log(`\n  Votre Moyenne Actuelle : ${moyenne.toFixed(2)} / 20`);
         } else {
             console.log("  Calcul impossible (aucune note enregistrée).");
         }
@@ -20,6 +23,7 @@ async function menuStats() {
         return;
     }
 
+    // --- SECTION ADMIN / PROFESSEUR ---
     showMenu(MENU_TITLES.stats, MENUS.stats);
     const choix = await ask(PROMPTS.choice);
     
@@ -45,8 +49,20 @@ async function menuStats() {
                 console.log(MESSAGES.studentNotFound);
                 break;
             }
-            const result = statsService.countAbsencesByStudent(studentId);
-            console.log(`  Total : ${result.total} | Justifiées : ${result.justifiees} | Non justifiées : ${result.non_justifiees}`);
+            
+            console.log("\n  --- BILAN DE L'ÉTUDIANT ---");
+            
+            // 1. Récupération de la moyenne via le service de notes
+            const moyenne = noteService.calculateAverage(studentId);
+            if (moyenne !== null && !Number.isNaN(moyenne)) {
+                console.log(`  Moyenne Générale : ${moyenne.toFixed(2)} / 20`);
+            } else {
+                console.log("  Moyenne Générale : Pas encore de notes enregistrées.");
+            }
+            
+            // 2. Récupération des absences via le service de statistiques
+            const resultAbsences = statsService.countAbsencesByStudent(studentId);
+            console.log(`  Absences Totales : ${resultAbsences.total} (Justifiées : ${resultAbsences.justifiees} | Non justifiées : ${resultAbsences.non_justifiees})`);
             break;
         }
         case '4': {

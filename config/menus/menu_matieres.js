@@ -1,7 +1,7 @@
 import * as matiereService from '../../services/matiereServive.js';
-
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import { ask, showMenu, printRows, parseId } from '../fct_utl_aff.js';
+import { ask, showMenu, printRows, parseId, header } from '../fct_utl_aff.js';
+import { getCurrentUser } from '../Authen.js';
 
 async function menuMatieres() {
     const user = getCurrentUser();

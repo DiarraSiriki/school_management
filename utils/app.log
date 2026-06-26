@@ -36,3 +36,40 @@
 [2026-06-24 16:47:13] [ERROR] Erreur : Le mot de passe ne peut pas être vide (NOT NULL constraint).
 [2026-06-24 16:49:13] [INFO] Utilisateur ajouté: ID=4, Nom=Campbell, Rôle=teacher
 [2026-06-24 16:49:13] [INFO] Professeur ajouté: ID=1, Nom=Campbell, UserID=4
+[2026-06-25 10:12:37] [INFO] Application démarrée
+[2026-06-25 10:13:38] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-25 10:18:13] [INFO] Application démarrée
+[2026-06-25 10:18:43] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-25 10:32:47] [ERROR] Erreur : getCurrentUser is not defined
+[2026-06-25 10:32:50] [ERROR] Erreur : getCurrentUser is not defined
+[2026-06-25 10:38:00] [ERROR] Erreur : getCurrentUser is not defined
+[2026-06-25 10:38:03] [ERROR] Erreur : getCurrentUser is not defined
+[2026-06-25 10:40:48] [INFO] Application démarrée
+[2026-06-25 10:41:05] [ERROR] Erreur : getCurrentUser is not defined
+[2026-06-25 10:41:09] [ERROR] Erreur : getCurrentUser is not defined
+[2026-06-25 10:57:53] [INFO] Application démarrée
+[2026-06-25 10:58:20] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-25 11:42:03] [INFO] Matière ajoutée: ID=1, Nom=Maths, Classe=licence 1, Professeur ID=1
+[2026-06-25 12:13:03] [INFO] Application fermée
+[2026-06-25 12:13:08] [INFO] Application démarrée
+[2026-06-25 12:13:42] [WARN] Tentative de connexion échouée : mot de passe incorrect pour admin@gmail.com
+[2026-06-25 12:14:18] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-25 12:21:31] [INFO] Liste des matières consultée (1 matières)
+[2026-06-25 14:43:02] [INFO] Absence enregistrée: ID=1, Étudiant ID=1, Date=25-06-2026, Statut=non justifiée
+[2026-06-25 15:20:25] [INFO] Classement consulté (2 étudiants)
+[2026-06-25 15:20:25] [INFO] Meilleur étudiant : Siriki Diarra Siriki (Moyenne: 15.50)
+[2026-06-25 15:20:40] [INFO] Moyenne générale consultée : 15.50
+[2026-06-25 15:40:40] [INFO] Application démarrée
+[2026-06-25 15:48:32] [INFO] Application démarrée
+[2026-06-25 15:50:14] [INFO] Application démarrée
+[2026-06-25 15:53:17] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-25 15:58:29] [INFO] Application démarrée
+[2026-06-25 15:58:51] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-26 10:58:05] [INFO] Déconnexion: Admin
+[2026-06-26 11:02:56] [WARN] Tentative de connexion échouée : email introuvable (campt@gmail.com)
+[2026-06-26 11:04:04] [WARN] Tentative de connexion échouée : email introuvable (campt@gmail.com)
+[2026-06-26 11:04:45] [INFO] Connexion réussie : ID=4, Rôle=teacher, Nom=Campbell
+[2026-06-26 11:08:19] [INFO] Liste des matières consultée (1 matières)
+[2026-06-26 11:25:58] [INFO] Application démarrée
+[2026-06-26 11:26:58] [INFO] Connexion réussie : ID=2, Rôle=student, Nom=Siriki_Diarra Siriki
+[2026-06-26 11:37:24] [INFO] Historique des absences consulté pour l'étudiant ID=undefined (0 absences)

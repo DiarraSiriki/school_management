@@ -8,6 +8,7 @@ export {
   listUsers
 };
 
+
 function addUser(name, role, email, mot_passe) {
   let passwordToSave = mot_passe;
   

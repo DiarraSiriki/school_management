@@ -30,6 +30,19 @@ class Grade {
     const query = database.prepare('DELETE FROM grades WHERE id = ?');
     return query.run(id);
   }
+
+  /**
+   * Calcule la moyenne générale d'un étudiant
+   * @param {number|string} student_id - L'identifiant de l'étudiant
+   * @returns {number|null} La moyenne de l'étudiant, ou null s'il n'a pas de notes
+   */
+  static getAverageByStudent(student_id) {
+    const query = database.prepare('SELECT AVG(note) as average FROM grades WHERE student_id = ?');
+    const result = query.get(student_id);
+    
+    // Si l'étudiant n'a pas de note, SQLite retourne null pour AVG(note)
+    return result && result.average !== null ? result.average : null;
+  }
 }
 
 export default Grade;

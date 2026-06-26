@@ -1,6 +1,3 @@
-// ============================================================
-// constents.js - Configuration des textes, menus et prompts
-// ============================================================
 
 export const MENU_TITLES = {
     main: "SYSTÈME DE GESTION D'ÉCOLE",
@@ -56,7 +53,8 @@ export const MENUS = {
         '  1. Ajouter une note',
         '  2. Modifier une note',
         '  3. Supprimer une note',
-        '  4. Voir les notes d\'un étudiant',
+        '  4. Calculer la moyenne d\'un étudiant',
+        '  5. Voir les notes d\'un étudiant',
         '  0. Retour'
     ],
     absences: [
@@ -68,7 +66,7 @@ export const MENUS = {
     stats: [
         '  1. Meilleur étudiant (Major)',
         '  2. Moyenne générale de l\'établissement',
-        '  3. Rapport global des absences',
+        '  3. Profil statistique d\'un étudiant (Moyenne & Absences)',
         '  4. Classement général des élèves',
         '  0. Retour'
     ]

@@ -1,10 +1,8 @@
-// ============================================================================
-// menu_principal.js - Point d'entrée et aiguillage selon le rôle utilisateur
-// ============================================================================
+
 
 import logger from '../../utils/logger.js';
 
-import { MENU_TITLES, PROMPTS, MESSAGES } from '../constents.js'; // Correction de la coquille d'orthographe
+import { MENU_TITLES, PROMPTS, MESSAGES } from '../constents.js'; 
 import { login, getCurrentUser, setCurrentUser } from '../Authen.js';
 import { ask, header, printMenu, separator, rl } from '../fct_utl_aff.js';
 
@@ -44,18 +42,19 @@ function getMainMenuForRole() {
         return [
             '  1. Consulter les étudiants',
             '  2. Consulter les matières',
-            '  3. Ajouter/Modifier des notes',
+            '  3. Gestion des notes (Ajouter/Modifier/Moyennes)', // <-- Libellé plus précis
             '  4. Consulter les absences',
-            '  5. Se déconnecter',
+            '  5. Voir les statistiques & Classements', // <-- AJOUT : Pour calculer les moyennes/bilans étudiants
+            '  6. Se déconnecter',
             '  0. Quitter'
         ];
     }
     
     if (role === 'etudiant' || role === 'student') {
         return [
-            '  1. Voir ses notes',
-            '  2. Voir ses absences',
-            '  3. Voir sa moyenne',
+            '  1. Voir mes notes',
+            '  2. Voir mes absences',
+            '  3. Voir ma moyenne', 
             '  4. Se déconnecter',
             '  0. Quitter'
         ];
@@ -65,7 +64,7 @@ function getMainMenuForRole() {
 }
 
 /**
- * AJOUT : Menu de sélection du rôle avant la connexion effective
+ * Menu de sélection du rôle avant la connexion effective
  */
 async function choisirRoleConnexion() {
     while (true) {
@@ -82,17 +81,12 @@ async function choisirRoleConnexion() {
 
         switch (choixRole) {
             case '1':
-                // Vous pouvez adapter login() pour recevoir le rôle si besoin, ex: login('admin')
-                await login(); 
-                return;
             case '2':
-                await login();
-                return;
             case '3':
                 await login();
                 return;
             case '0':
-                return; // Retourne simplement au menu principal sans se connecter
+                return; 
             default:
                 console.log(MESSAGES.invalidChoice);
         }
@@ -122,7 +116,6 @@ async function menuPrincipal() {
         if (!currentUser) {
             switch (choix) {
                 case '1': 
-                    // MODIFICATION ICI : On appelle le nouveau sous-menu de sélection de rôle
                     await choisirRoleConnexion(); 
                     break;
                 case '0': 
@@ -157,7 +150,8 @@ async function menuPrincipal() {
                 case '2': await menuMatieres(); break;   
                 case '3': await menuNotes(); break;      
                 case '4': await menuAbsences(); break;   
-                case '5': deconnexion(currentUser); break;
+                case '5': await menuStats(); break; // <-- AJOUT : Permet au prof d'accéder au menuStats adapté
+                case '6': deconnexion(currentUser); break;
                 case '0': fermerApplication(); break;
                 default: console.log(MESSAGES.invalidChoice);
             }

@@ -6,18 +6,9 @@ import { ask } from './fct_utl_aff.js';
 
 let currentUser = null;
 
-export {
-  authenticate,
-  getUserProfile,
-  login,
-  getCurrentUser,
-  setCurrentUser
-};
 
-/**
- * Authentifie un utilisateur par email et mot de passe
- * et retourne son profil complet (User + Données spécifiques Prof/Élève)
- */
+
+
 function authenticate(email, mot_passe) {
   // 1. Récupération du compte utilisateur global
   const user = User.getByEmail(email);
@@ -112,3 +103,5 @@ function getCurrentUser() {
 function setCurrentUser(user) {
   currentUser = user;
 }
+
+export { authenticate,getUserProfile,login,getCurrentUser,setCurrentUser };

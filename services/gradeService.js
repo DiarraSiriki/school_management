@@ -6,7 +6,8 @@ export {
   removeGrade,
   listGrades,
   getGradeById,
-  getStudentGrades
+  getStudentGrades,
+  calculateAverage // Ajout de l'export
 };
 
 function addGrade(student_id, subject_id, note) {
@@ -34,4 +35,13 @@ function getGradeById(id) {
 
 function getStudentGrades(student_id) {
   return Grade.getByStudent(student_id);
+}
+
+/**
+ * Récupère la moyenne d'un étudiant depuis le modèle
+ * @param {number|string} student_id 
+ * @returns {number|null} La moyenne ou null si aucune note
+ */
+function calculateAverage(student_id) {
+  return Grade.getAverageByStudent(student_id);
 }

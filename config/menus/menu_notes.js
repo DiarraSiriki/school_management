@@ -1,8 +1,7 @@
-import * as etudiantService from '../../services/studentService.js';
-import * as matiereService from '../../services/matiereServive.js';
+
 import * as noteService from '../../services/gradeService.js';
 import { MENU_TITLES, MENUS, PROMPTS, MESSAGES } from '../constents.js';
-import { ask, showMenu, printRows, resolveStudentId, parseId, header } from '../fct_utl_aff.js';
+import { ask, showMenu, printRows, resolveStudentId, parseId, header, separator } from '../fct_utl_aff.js';
 import { getCurrentUser } from '../Authen.js';
 
 async function menuNotes() {
@@ -116,6 +115,21 @@ async function menuNotes() {
             break;
         }
         case '4': {
+            const studentInput = await ask(PROMPTS.studentIdOrMatricule);
+            const studentId = resolveStudentId(studentInput.trim());
+            if (!studentId) {
+                console.log(MESSAGES.studentNotFound);
+                break;
+            }
+            const moyenne = noteService.calculateAverage(studentId);
+            if (moyenne !== null && !Number.isNaN(moyenne)) {
+                console.log(`  Moyenne de l'étudiant : ${moyenne.toFixed(2)} / 20`);
+            } else {
+                console.log("  Aucune note enregistrée pour cet étudiant.");
+            }
+            break;
+        }
+        case '5': {
             const studentInput = await ask(PROMPTS.studentIdOrMatricule);
             const studentId = resolveStudentId(studentInput.trim());
             if (!studentId) {
