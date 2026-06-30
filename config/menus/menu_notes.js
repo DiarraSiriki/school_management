@@ -7,7 +7,6 @@ import { getCurrentUser } from '../Authen.js';
 async function menuNotes() {
     const user = getCurrentUser();
 
-    // Pour étudiant : voir ses notes uniquement
     if (user && (user.role === 'student' || user.role === 'etudiant')) {
         header("MES NOTES");
         const grades = noteService.getStudentGrades(user.student_id);
@@ -20,7 +19,6 @@ async function menuNotes() {
         return;
     }
 
-    // Pour professeur : menu limité (ajouter/modifier notes seulement)
     if (user && (user.role === 'teacher' || user.role === 'professeur')) {
         header("GESTION DES NOTES");
         const profMenu = [
@@ -79,7 +77,6 @@ async function menuNotes() {
         return;
     }
 
-    // Pour admin : menu complet
     showMenu(MENU_TITLES.grades, MENUS.grades);
     const choix = await ask(PROMPTS.choice);
     

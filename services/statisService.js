@@ -11,9 +11,6 @@ export {
   countAllAbsences
 };
 
-/**
- * Fonction privée : calcule la moyenne brute d'un étudiant
- */
 function calcAverage(student_id) {
   const grades = Grade.getByStudent(student_id);
   if (grades.length === 0) return 0;
@@ -21,9 +18,6 @@ function calcAverage(student_id) {
   return sum / grades.length;
 }
 
-/**
- * Calcule la moyenne générale de tout l'établissement
- */
 function getGeneralAverage() {
   const grades = Grade.getAll();
   if (grades.length === 0) {
@@ -36,9 +30,6 @@ function getGeneralAverage() {
   return average;
 }
 
-/**
- * Génère le classement de tous les étudiants (du meilleur au moins bon)
- */
 function getRankings() {
   const students = Student.getAll();
   const rankings = students
@@ -52,9 +43,6 @@ function getRankings() {
   return rankings;
 }
 
-/**
- * Récupère le meilleur étudiant de l'établissement
- */
 function getBestStudent() {
   const rankings = getRankings();
   if (rankings.length === 0) {
@@ -62,16 +50,12 @@ function getBestStudent() {
     return null;
   }
 
-  // Le premier du classement trié par ordre décroissant
   const best = rankings[0];
   
   logger.info(`Meilleur étudiant : ${best.prenom} ${best.nom} (Moyenne: ${best.moyenne})`);
   return best;
 }
 
-/**
- * Compte et ventile les absences d'un étudiant spécifique
- */
 function countAbsencesByStudent(student_id) {
   const absences = Absence.getByStudent(student_id);
   const result = {
@@ -83,9 +67,6 @@ function countAbsencesByStudent(student_id) {
   return result;
 }
 
-/**
- * Compte et ventile toutes les absences de l'établissement
- */
 function countAllAbsences() {
   const absences = Absence.getAll();
   const result = {

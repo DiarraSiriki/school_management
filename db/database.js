@@ -17,7 +17,6 @@ db.pragma('foreign_keys = ON');
 
 console.log(`Base de données connectée : ${dbPath}`);
 
-// 1. TABLE USERS
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
@@ -30,7 +29,6 @@ db.exec(`
 `);
 
 
-// 2. TABLE STUDENTS
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS students (
@@ -46,7 +44,6 @@ db.exec(`
 `);
 
 
-// 3. TABLE TEACHERS
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS teachers (
@@ -59,7 +56,6 @@ db.exec(`
 `);
 
 
-// 4. TABLE SUBJECTS
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS subjects (
@@ -72,7 +68,6 @@ db.exec(`
 `);
 
 
-// 5. TABLE GRADES
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS grades (
@@ -86,7 +81,6 @@ db.exec(`
 `);
 
 
-// 6. TABLE ABSENCES
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS absences (

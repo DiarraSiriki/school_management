@@ -1,7 +1,6 @@
 import database from '../db/database.js';
 
 class Subjects {
-  // Prise en compte du paramètre 'classe'
   static create(nom, classe, teacher_id = null) {
     const query = database.prepare(`
       INSERT INTO subjects (nom, classe, teacher_id)
@@ -39,7 +38,6 @@ class Subjects {
     return query.all(k, k);
   }
 
-  // LA CORRECTION EST ICI : suppression du mot intrus
   static update(id, nom, classe, teacher_id = null) {
     const query = database.prepare(`
       UPDATE subjects 

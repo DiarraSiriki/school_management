@@ -1,7 +1,6 @@
 import database from '../db/database.js';
 
 class User {
-  // Le rôle peut être 'admin', 'teacher', 'student', etc.
   static create(name, role, email, mot_passe) {
     const query = database.prepare(`
       INSERT INTO users (name, role, email, mot_passe) 

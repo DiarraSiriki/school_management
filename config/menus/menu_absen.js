@@ -7,7 +7,7 @@ import { getCurrentUser } from '../Authen.js';
 async function menuAbsences() {
     const user = getCurrentUser();
 
-    // Pour étudiant : voir ses absences uniquement
+
     if (user && (user.role === 'student' || user.role === 'etudiant')) {
         header("MES ABSENCES");
         const history = absenceService.getStudentHistory(user.student_id);
@@ -17,7 +17,7 @@ async function menuAbsences() {
     }
     
 
-    // Pour professeur : menu limité (consulter absences des étudiants)
+
     if (user && (user.role === 'teacher' || user.role === 'professeur')) {
         header("CONSULTER LES ABSENCES");
         const profMenu = [
@@ -68,7 +68,7 @@ async function menuAbsences() {
         return;
     }
 
-    // Pour admin : menu complet
+    
     showMenu(MENU_TITLES.absences, MENUS.absences);
     const choix = await ask(PROMPTS.choice);
     

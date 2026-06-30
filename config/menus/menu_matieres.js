@@ -6,7 +6,6 @@ import { getCurrentUser } from '../Authen.js';
 async function menuMatieres() {
     const user = getCurrentUser();
 
-    // Pour professeur : consultation uniquement
     if (user && (user.role === 'teacher' || user.role === 'professeur')) {
         header("CONSULTER LES MATIÈRES");
         const matieres = matiereService.listSubjects();
@@ -15,7 +14,6 @@ async function menuMatieres() {
         return;
     }
 
-    // Pour admin : menu complet
     showMenu(MENU_TITLES.subjects, MENUS.subjects);
     const choix = await ask(PROMPTS.choice);
     switch (choix.trim()) {

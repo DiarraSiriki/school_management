@@ -10,7 +10,6 @@ export {
   listSubjects
 };
 
-// Intégration du paramètre classe requis par la nouvelle BD
 function addSubject(nom, classe, teacher_id = null) {
   const result = Subjects.create(nom, classe, teacher_id);
   logger.info(`Matière ajoutée: ID=${result.lastInsertRowid}, Nom=${nom}, Classe=${classe}, Professeur ID=${teacher_id}`);

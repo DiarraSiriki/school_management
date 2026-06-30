@@ -19,7 +19,7 @@ function addUser(name, role, email, mot_passe) {
 
   const result = User.create(name, role, email, passwordToSave);
   logger.info(`Utilisateur ajouté: ID=${result.lastInsertRowid}, Nom=${name}, Rôle=${role}`);
-  return result.lastInsertRowid; // Retourne l'user_id généré
+  return result.lastInsertRowid;
 }
 
 function authenticate(email, mot_passe) {

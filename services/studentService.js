@@ -13,17 +13,14 @@ export {
 };
 
 function addStudent(matricule, nom, prenom, age, classe, email, password) {
-  // 1. SÉCURITÉ : On vérifie si le matricule existe déjà
   const existingStudent = findStudentByMatricule(matricule);
   if (existingStudent) {
     logger.warn(`Échec de l'ajout : Le matricule ${matricule} est déjà utilisé.`);
     throw new Error(`Le matricule '${matricule}' appartient déjà à un étudiant.`);
   }
 
-  // 2. On crée d'abord le compte utilisateur global pour obtenir son ID
   const userId = addUser(`${prenom}_${nom}`, 'student', email, password);
 
-  // 3. On crée l'étudiant en lui associant l'user_id obtenu
   const result = Student.create(matricule, nom, prenom, age, classe, userId);
   const studentId = result.lastInsertRowid; 
   

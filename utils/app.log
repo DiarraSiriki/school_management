@@ -73,3 +73,36 @@
 [2026-06-26 11:25:58] [INFO] Application démarrée
 [2026-06-26 11:26:58] [INFO] Connexion réussie : ID=2, Rôle=student, Nom=Siriki_Diarra Siriki
 [2026-06-26 11:37:24] [INFO] Historique des absences consulté pour l'étudiant ID=undefined (0 absences)
+[2026-06-26 16:14:56] [INFO] Application fermée
+[2026-06-26 16:29:40] [INFO] Application démarrée
+[2026-06-26 16:30:07] [WARN] Tentative de connexion échouée : email introuvable (à)
+[2026-06-26 16:35:03] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-26 16:37:18] [ERROR] Tentative d'ajout de l'utilisateur Coulibaly sans mot de passe.
+[2026-06-26 16:37:18] [ERROR] Erreur : Le mot de passe ne peut pas être vide (NOT NULL constraint).
+[2026-06-26 16:38:42] [INFO] Utilisateur ajouté: ID=5, Nom=Mouna_Coulibaly, Rôle=student
+[2026-06-26 16:38:42] [INFO] Étudiant ajouté avec succès : ID=3, Matricule=MAT-03, UserID=5
+[2026-06-26 16:39:21] [INFO] Utilisateur ajouté: ID=6, Nom=Doumbia, Rôle=teacher
+[2026-06-26 16:39:21] [INFO] Professeur ajouté: ID=2, Nom=Doumbia, UserID=6
+[2026-06-26 16:41:34] [INFO] Utilisateur ajouté: ID=7, Nom=Regis, Rôle=teacher
+[2026-06-26 16:41:34] [INFO] Professeur ajouté: ID=3, Nom=Regis, UserID=7
+[2026-06-26 16:43:07] [INFO] Professeur supprimé: ID=2
+[2026-06-26 16:55:42] [INFO] Étudiant modifié: ID=1
+[2026-06-26 16:57:27] [INFO] Étudiant modifié: ID=1
+[2026-06-27 00:26:47] [INFO] Professeur modifié: ID=1
+[2026-06-27 12:26:12] [INFO] Application démarrée
+[2026-06-27 12:26:43] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-27 12:28:12] [INFO] Professeur modifié avec succès: ID=1
+[2026-06-28 00:59:30] [INFO] Matière ajoutée: ID=2, Nom=Maths, Classe=, Professeur ID=null
+[2026-06-28 00:59:47] [INFO] Liste des matières consultée (2 matières)
+[2026-06-30 11:15:36] [INFO] Application démarrée
+[2026-06-30 11:17:00] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-30 11:57:15] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-06-30 11:57:23] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-06-30 11:59:20] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-06-30 11:59:38] [INFO] Application démarrée
+[2026-06-30 12:00:05] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-30 12:00:10] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-06-30 12:06:50] [INFO] Application démarrée
+[2026-06-30 12:07:12] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-30 12:07:16] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-06-30 12:11:42] [INFO] Liste des matières consultée (2 matières)

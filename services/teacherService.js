@@ -1,4 +1,6 @@
 import Teacher from '../models/teacher_models.js';
+import User from '../models/modelUsers.js';
+import database from '../db/database.js';
 import logger from '../utils/logger.js';
 import { addUser } from './userService.js'; 
 
@@ -12,10 +14,7 @@ export {
 };
 
 function addTeacher(nom, matiere, email, password) {
-  // 1. On crée d'abord le compte utilisateur pour obtenir le user_id
   const userId = addUser(nom, 'teacher', email, password);
-
-  // 2. On enregistre dans la table teachers avec le user_id associé
   const result = Teacher.create(nom, matiere, userId);
   const teacherId = result.lastInsertRowid;
 
@@ -23,12 +22,58 @@ function addTeacher(nom, matiere, email, password) {
   return teacherId;
 }
 
-function updateTeacher(id, nom, matiere, user_id = null) {
-  const result = Teacher.update(id, nom, matiere, user_id);
-  if (result.changes > 0) {
-    logger.info(`Professeur modifié: ID=${id}`);
+function updateTeacher(id, nom, matiere, email = null, password = null) {
+  const teacher = Teacher.getById(id);
+  if (!teacher) {
+    logger.error(`Professeur introuvable: ID=${id}`);
+    return false;
   }
-  return result.changes > 0;
+
+  let tableTeachersModifiee = false;
+  let tableUsersModifiee = false;
+
+  const resultTeacher = Teacher.update(id, nom, matiere, teacher.user_id);
+  if (resultTeacher && resultTeacher.changes > 0) {
+    tableTeachersModifiee = true;
+  }
+  
+  if (teacher.user_id) {
+    const updates = [];
+    const values = [];
+    
+    if (nom) {
+      updates.push('nom = ?');
+      values.push(nom);
+    }
+    if (email) {
+      updates.push('email = ?');
+      values.push(email);
+    }
+    if (password) {
+      updates.push('mot_passe = ?');
+      values.push(password);
+    }
+    
+    if (updates.length > 0) {
+      values.push(teacher.user_id);
+      const query = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
+      
+      const resultUser = database.prepare(query).run(...values);
+      if (resultUser && resultUser.changes > 0) {
+        tableUsersModifiee = true;
+      }
+    }
+  }
+
+  const modificationEffectuee = tableTeachersModifiee || tableUsersModifiee;
+
+  if (modificationEffectuee) {
+    logger.info(`Professeur modifié avec succès: ID=${id}`);
+    return true;
+  } else {
+    logger.info(`Mise à jour demandée pour l'ID=${id} mais aucune donnée n'a changé.`);
+    return true; 
+  }
 }
 
 function removeTeacher(id) {

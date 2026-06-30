@@ -7,42 +7,31 @@ import { ask } from './fct_utl_aff.js';
 let currentUser = null;
 
 
-
-
 function authenticate(email, mot_passe) {
-  // 1. Récupération du compte utilisateur global
   const user = User.getByEmail(email);
   if (!user) {
     logger.warn(`Tentative de connexion échouée : email introuvable (${email})`);
     return null;
   }
 
-  // 2. Vérification du mot de passe
   if (user.mot_passe !== mot_passe) {
     logger.warn(`Tentative de connexion échouée : mot de passe incorrect pour ${email}`);
     return null;
   }
 
-  // 3. Récupération du profil lié selon le rôle
   const fullProfile = getUserProfile(user);
 
   logger.info(`Connexion réussie : ID=${user.id}, Rôle=${user.role}, Nom=${user.name}`);
   return fullProfile;
 }
 
-/**
- * Fonction interne/publique pour lier les infos de la table 'users' 
- * avec les détails de la table 'students' ou 'teachers'
- */
 function getUserProfile(user) {
   if (!user) return null;
 
-  // Copie des infos de base de l'utilisateur (sans le mot de passe pour la sécurité)
   const { mot_passe, ...userWithoutPassword } = user;
   let profileDetails = {};
 
   if (user.role === 'student' || user.role === 'etudiant') {
-    // Nouvelle logique : on cherche par user_id dans la table students
     const studentInfo = Student.getByUserId(user.id);
     if (studentInfo) {
       profileDetails = {
@@ -55,7 +44,6 @@ function getUserProfile(user) {
       };
     }
   } else if (user.role === 'teacher' || user.role === 'professeur') {
-    // Nouvelle logique : on cherche par user_id dans la table teachers
     const teacherInfo = Teacher.getByUserId(user.id);
     if (teacherInfo) {
       profileDetails = {
@@ -66,16 +54,12 @@ function getUserProfile(user) {
     }
   }
 
-  // On fusionne les infos de compte (id, name, email, role) avec le profil métier
   return {
     ...userWithoutPassword,
     profile: profileDetails
   };
 }
 
-/**
- * Fonction de login interactive
- */
 async function login() {
   console.log('\n  === CONNEXION ===');
   const email = await ask(' Veillez entrer votre mail : ');
@@ -90,16 +74,10 @@ async function login() {
   }
 }
 
-/**
- * Récupère l'utilisateur courant
- */
 function getCurrentUser() {
   return currentUser;
 }
 
-/**
- * Définit l'utilisateur courant
- */
 function setCurrentUser(user) {
   currentUser = user;
 }

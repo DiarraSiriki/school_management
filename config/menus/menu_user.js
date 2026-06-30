@@ -23,20 +23,22 @@ async function menuUtilisateurs() {
                 break;
             }
 
-            const id = userService.addUser(name.trim(), role, email.trim(), mot_de_passe.trim());
+            const id = await userService.addUser(name.trim(), role, email.trim(), mot_de_passe.trim());
             console.log(`  Utilisateur créé avec l'ID ${id}.`);
             break;
         }
         case '2': {
-            const users = userService.listUsers();
+            const users = await userService.listUsers();
             printRows('utilisateur', users);
+            
             const id = await ask(PROMPTS.userDeleteId);
-            const ok = userService.removeUser(parseId(id));
+            
+            const ok = await userService.removeUser(parseId(id));
             console.log(ok ? '  Utilisateur supprimé.' : '  Utilisateur introuvable.');
             break;
         }
         case '3': {
-            const users = userService.listUsers();
+            const users = await userService.listUsers();
             printRows('utilisateur', users);
             break;
         }

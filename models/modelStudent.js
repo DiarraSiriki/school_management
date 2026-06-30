@@ -1,7 +1,6 @@
 import database from '../db/database.js';
 
 class Student {
-  // user_id lie l'étudiant à son compte utilisateur (optionnel au départ)
   static create(matricule, nom, prenom, age, classe, user_id = null) {
     try {
       const query = database.prepare(`

@@ -1,7 +1,4 @@
 
-// 
-// IMPORTS - Chargement des dépendances et modules
-// 
 
 import './db/database.js';
 import logger from './utils/logger.js';
@@ -12,9 +9,6 @@ import {Menu_principal} from './config/menus/Menu_principal.js';
 
 
 
-// 
-// BOUCLE PRINCIPALE - Gestion du flux de l'application
-// 
 
 async function menuPrincipal() {
     while (true) {
@@ -29,9 +23,6 @@ async function menuPrincipal() {
 
 
 
-//
-// POINT D'ENTRÉE - Démarrage de l'application
-//
 
 
 (async () => {

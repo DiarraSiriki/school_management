@@ -7,11 +7,9 @@ import { getCurrentUser } from '../Authen.js';
 async function menuStats() {
     const user = getCurrentUser();
 
-    // --- SECTION ÉTUDIANT ---
     if (user && (user.role === 'student' || user.role === 'etudiant')) {
         header("MA MOYENNE GLOBALE");
         
-        // Utilisation directe du service SQL de note pour l'étudiant connecté
         const moyenne = noteService.calculateAverage(user.student_id);
         
         if (moyenne !== null && !Number.isNaN(moyenne)) {
@@ -23,7 +21,6 @@ async function menuStats() {
         return;
     }
 
-    // --- SECTION ADMIN / PROFESSEUR ---
     showMenu(MENU_TITLES.stats, MENUS.stats);
     const choix = await ask(PROMPTS.choice);
     
@@ -52,7 +49,6 @@ async function menuStats() {
             
             console.log("\n  --- BILAN DE L'ÉTUDIANT ---");
             
-            // 1. Récupération de la moyenne via le service de notes
             const moyenne = noteService.calculateAverage(studentId);
             if (moyenne !== null && !Number.isNaN(moyenne)) {
                 console.log(`  Moyenne Générale : ${moyenne.toFixed(2)} / 20`);
@@ -60,7 +56,6 @@ async function menuStats() {
                 console.log("  Moyenne Générale : Pas encore de notes enregistrées.");
             }
             
-            // 2. Récupération des absences via le service de statistiques
             const resultAbsences = statsService.countAbsencesByStudent(studentId);
             console.log(`  Absences Totales : ${resultAbsences.total} (Justifiées : ${resultAbsences.justifiees} | Non justifiées : ${resultAbsences.non_justifiees})`);
             break;

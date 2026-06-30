@@ -18,7 +18,6 @@ async function menuEtudiants() {
         return;
     }
 
-    // Pour professeur : afficher un menu limité (lecture seule)
     if (user && (user.role === 'teacher' || user.role === 'professeur')) {
         header("CONSULTER LES ÉTUDIANTS");
         const students = etudiantService.listStudents();
@@ -27,7 +26,6 @@ async function menuEtudiants() {
         return;
     }
 
-    // Pour admin : menu complet
     showMenu(MENU_TITLES.students, MENUS.students);
     const choix = await ask(PROMPTS.choice);
     

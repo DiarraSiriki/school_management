@@ -15,9 +15,6 @@ import { menuNotes } from './menu_notes.js';
 import { menuAbsences } from './menu_absen.js';
 import { menuStats } from './menu_stat.js';
 
-/**
- * Génère les options d'affichage dynamiquement selon le rôle de la session active
- */
 function getMainMenuForRole() {
     const currentUser = getCurrentUser();
     if (!currentUser) return ['  1. Se connecter', '  0. Quitter'];
@@ -42,9 +39,9 @@ function getMainMenuForRole() {
         return [
             '  1. Consulter les étudiants',
             '  2. Consulter les matières',
-            '  3. Gestion des notes (Ajouter/Modifier/Moyennes)', // <-- Libellé plus précis
+            '  3. Gestion des notes (Ajouter/Modifier/Moyennes)',
             '  4. Consulter les absences',
-            '  5. Voir les statistiques & Classements', // <-- AJOUT : Pour calculer les moyennes/bilans étudiants
+            '  5. Voir les statistiques & Classements',
             '  6. Se déconnecter',
             '  0. Quitter'
         ];
@@ -63,9 +60,6 @@ function getMainMenuForRole() {
     return ['  0. Quitter'];
 }
 
-/**
- * Menu de sélection du rôle avant la connexion effective
- */
 async function choisirRoleConnexion() {
     while (true) {
         header("SÉLECTIONNER VOTRE ESPACE");
@@ -93,9 +87,6 @@ async function choisirRoleConnexion() {
     }
 }
 
-/**
- * Boucle principale de l'application CLI
- */
 async function menuPrincipal() {
     while (true) {
         const currentUser = getCurrentUser();
@@ -112,7 +103,6 @@ async function menuPrincipal() {
 
         const choix = (await ask(PROMPTS.choice)).trim();
 
-        // 1. GESTION DES UTILISATEURS NON CONNECTÉS
         if (!currentUser) {
             switch (choix) {
                 case '1': 
@@ -127,7 +117,6 @@ async function menuPrincipal() {
             continue;
         }
 
-        // 2. AIGUILLAGE SÉCURISÉ SELON LE RÔLE DÉTECTÉ
         const role = currentUser.role.toLowerCase();
 
         if (role === 'admin') {
@@ -150,7 +139,7 @@ async function menuPrincipal() {
                 case '2': await menuMatieres(); break;   
                 case '3': await menuNotes(); break;      
                 case '4': await menuAbsences(); break;   
-                case '5': await menuStats(); break; // <-- AJOUT : Permet au prof d'accéder au menuStats adapté
+                case '5': await menuStats(); break;
                 case '6': deconnexion(currentUser); break;
                 case '0': fermerApplication(); break;
                 default: console.log(MESSAGES.invalidChoice);
@@ -172,18 +161,14 @@ async function menuPrincipal() {
     }
 }
 
-/**
- * Déconnecte proprement l'utilisateur actuel
- */
+// Déconnecte proprement l'utilisateur actuel
 function deconnexion(user) {
     logger.info(`Déconnexion: ${user.name}`);
     console.log(`\n  Au revoir ${user.name} !\n`);
     setCurrentUser(null);
 }
 
-/**
- * Arrête l'application de manière sécurisée
- */
+// Arrête l'application de manière sécurisée
 function fermerApplication() {
     logger.info(MESSAGES.appClosed);
     rl.close();

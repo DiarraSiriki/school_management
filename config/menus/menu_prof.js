@@ -6,14 +6,12 @@ import { getCurrentUser } from '../Authen.js';
 async function menuProfesseurs() {
     const user = getCurrentUser();
 
-    // Pour professeur : accès refusé
     if (user && (user.role === 'teacher' || user.role === 'professeur')) {
         console.log("  [Accès refusé] Les professeurs ne peuvent pas gérer les autres professeurs.");
         await ask("\n  Appuyez sur Entrée pour revenir...");
         return;
     }
 
-    // Pour admin : menu complet
     showMenu(MENU_TITLES.teachers, MENUS.teachers);
     const choix = await ask(PROMPTS.choice);
     
@@ -37,7 +35,16 @@ async function menuProfesseurs() {
             }
             const nom = await ask(PROMPTS.name);
             const matiere = await ask(PROMPTS.teacherSubject);
-            const ok = professeurService.updateTeacher(id, nom.trim(), matiere.trim());
+            const email = await ask(PROMPTS.email);
+            const password = await ask(PROMPTS.password);
+            
+            const ok = professeurService.updateTeacher(
+                id, 
+                nom.trim(), 
+                matiere.trim(), 
+                email.trim() || null, 
+                password.trim() || null
+            );
             console.log(ok ? '  Professeur modifié.' : '  Modification échouée.');
             break;
         }
