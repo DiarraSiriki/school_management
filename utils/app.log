@@ -106,3 +106,20 @@
 [2026-06-30 12:07:12] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
 [2026-06-30 12:07:16] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
 [2026-06-30 12:11:42] [INFO] Liste des matières consultée (2 matières)
+[2026-06-30 12:21:58] [INFO] Application démarrée
+[2026-06-30 12:22:24] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-30 12:41:44] [INFO] Historique des absences consulté pour l'étudiant ID=1 (1 absences)
+[2026-06-30 12:43:54] [INFO] Classement consulté (3 étudiants)
+[2026-06-30 12:43:54] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-06-30 12:44:08] [INFO] Moyenne générale consultée : 15.00
+[2026-06-30 13:01:57] [INFO] Classement consulté (3 étudiants)
+[2026-06-30 13:01:57] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-06-30 13:02:15] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-06-30 13:06:21] [INFO] Déconnexion: Admin
+[2026-06-30 13:07:34] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-30 13:11:05] [INFO] Utilisateur ajouté: ID=8, Nom=Kouassi_Tyson, Rôle=student
+[2026-06-30 13:11:05] [INFO] Étudiant ajouté avec succès : ID=4, Matricule=MAT-04, UserID=8
+[2026-06-30 13:21:16] [INFO] Application démarrée
+[2026-06-30 13:22:14] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin
+[2026-06-30 13:26:09] [INFO] Application démarrée
+[2026-06-30 13:26:29] [INFO] Connexion réussie : ID=1, Rôle=admin, Nom=Admin

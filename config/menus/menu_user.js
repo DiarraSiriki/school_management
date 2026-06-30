@@ -16,7 +16,7 @@ async function menuUtilisateurs() {
             const email = await ask(PROMPTS.email);
             const mot_de_passe = await ask(PROMPTS.password);
 
-            if (role === 'student' || role === 'etudiant' || role === 'teacher' || role === 'professeur') {
+            if (role !== 'admin') {
                 console.log("  [Info] Pour créer un étudiant, utilisez le menu 'Étudiants' (option 2 du menu principal).");
                 console.log("  [Info] Pour créer un professeur, utilisez le menu 'Professeurs' (option 3 du menu principal).");
                 console.log("  Ce menu 'Utilisateurs' est réservé aux comptes administratifs uniquement.");
