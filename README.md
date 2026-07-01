@@ -1,13 +1,13 @@
 # Système de Gestion d'École (CLI)
 
-## 📝 Description du Projet
+##  Description du Projet
 Application complète en ligne de commande (CLI) pour la gestion scolaire. Développée en JavaScript (Node.js) sans framework, elle permet de gérer les utilisateurs, étudiants, professeurs, matières, notes, absences et de générer des statistiques globales.
 
 L'accent est mis sur une architecture logicielle propre, l'utilisation de Git, une base de données relationnelle locale et un système de journalisation (logging).
 
----
 
-## 🚀 Fonctionnalités Principales
+
+##  Fonctionnalités Principales
 
 ### Gestion des Utilisateurs
 - Création de comptes administratifs
@@ -45,9 +45,9 @@ L'accent est mis sur une architecture logicielle propre, l'utilisation de Git, u
 - Profil statistique d'un étudiant (moyenne & absences)
 - Identification du meilleur étudiant (major)
 
----
 
-## 🛠️ Technologies Utilisées
+
+##  Technologies Utilisées
 
 - **Langage :** JavaScript / Node.js
 - **Base de données :** SQLite via le package `better-sqlite3`
@@ -55,11 +55,10 @@ L'accent est mis sur une architecture logicielle propre, l'utilisation de Git, u
 - **Gestionnaire de version :** Git
 - **Modules natifs :** `readline`, `path`, `url`
 
----
 
-## 📁 Structure du Projet
+##  Structure du Projet
 
-```text
+``text
 school-management/
 ├── main.js                      # Point d'entrée de l'application
 ├── package.json                # Dépendances du projet
@@ -83,7 +82,7 @@ school-management/
 │   └── statisService.js        # Service statistiques
 ├── config/                     # Configuration
 │   ├── Authen.js               # Gestion de l'authentification
-│   ├── constents.js            # Constantes (menus, messages)
+│   ├── constents.js            # Constantes (menus, messages,prompts)
 │   ├── fct_utl_aff.js          # Fonctions utilitaires d'affichage
 │   └── menus/                  # Menus de l'application
 │       ├── Menu_principal.js   # Menu principal
@@ -97,31 +96,30 @@ school-management/
 ├── utils/
 │   └── logger.js               # Système de journalisation
 └── logs/                       # Répertoire des logs
-```
+``
 
----
 
-## 🚀 Installation
+
+##  Installation
 
 1. Cloner le dépôt :
-```bash
+
 git clone <url-du-dépôt>
 cd school_management
-```
+
 
 2. Installer les dépendances :
-```bash
+
 npm install
-```
 
----
 
-## ▶️ Utilisation
+
+##  Utilisation
 
 Lancer l'application :
-```bash
+
 node main.js
-```
+
 
 ### Rôles et Accès
 
@@ -129,9 +127,9 @@ node main.js
 - **Professeur :** Gestion des notes, consultation des étudiants et matières
 - **Étudiant :** Consultation de ses notes, absences et moyenne
 
----
 
-## 📊 Base de Données
+
+##  Base de Données
 
 L'application utilise SQLite avec les tables suivantes :
 - `users` : Comptes utilisateurs globaux
