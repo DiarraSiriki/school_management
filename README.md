@@ -5,7 +5,7 @@ Application complète en ligne de commande (CLI) pour la gestion scolaire. Déve
 
 L'accent est mis sur une architecture logicielle propre, l'utilisation de Git, une base de données relationnelle locale et un système de journalisation (logging).
 
-
+---
 
 ##  Fonctionnalités Principales
 
@@ -45,7 +45,7 @@ L'accent est mis sur une architecture logicielle propre, l'utilisation de Git, u
 - Profil statistique d'un étudiant (moyenne & absences)
 - Identification du meilleur étudiant (major)
 
-
+---
 
 ##  Technologies Utilisées
 
@@ -55,10 +55,11 @@ L'accent est mis sur une architecture logicielle propre, l'utilisation de Git, u
 - **Gestionnaire de version :** Git
 - **Modules natifs :** `readline`, `path`, `url`
 
+---
 
 ##  Structure du Projet
 
-``text
+```text
 school-management/
 ├── main.js                      # Point d'entrée de l'application
 ├── package.json                # Dépendances du projet
@@ -82,7 +83,7 @@ school-management/
 │   └── statisService.js        # Service statistiques
 ├── config/                     # Configuration
 │   ├── Authen.js               # Gestion de l'authentification
-│   ├── constents.js            # Constantes (menus, messages,prompts)
+│   ├── constents.js            # Constantes (menus, messages,prompt)
 │   ├── fct_utl_aff.js          # Fonctions utilitaires d'affichage
 │   └── menus/                  # Menus de l'application
 │       ├── Menu_principal.js   # Menu principal
@@ -96,9 +97,9 @@ school-management/
 ├── utils/
 │   └── logger.js               # Système de journalisation
 └── logs/                       # Répertoire des logs
-``
+```
 
-
+---
 
 ##  Installation
 
@@ -112,7 +113,7 @@ cd school_management
 
 npm install
 
-
+---
 
 ##  Utilisation
 
@@ -127,7 +128,7 @@ node main.js
 - **Professeur :** Gestion des notes, consultation des étudiants et matières
 - **Étudiant :** Consultation de ses notes, absences et moyenne
 
-
+---
 
 ##  Base de Données
 
